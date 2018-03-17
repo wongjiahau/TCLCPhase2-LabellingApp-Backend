@@ -129,11 +129,9 @@ describe('app', () => {
                             .set('accept', 'json')
                             .send({id: objectId})
                             .end((err3, res3) => {
-                                if(error) {
-                                    return done(error);
+                                if(err3) {
+                                    return done(err3);
                                 }
-                                console.log("This is dino test");
-                                console.log(res3.body);
                                 expect(res3.body.semantic_value).to.eq('newSemanticValue');
                                 done();
                             });
