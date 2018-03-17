@@ -23,7 +23,7 @@ app.get('/getPostsEnglish', (req, res) => {
         const collection = client.db(dbName).collection('english');
         collection.find().limit(10).toArray((err, items) => {
             const ids = items.map((x) => new ObjectId(x._id));
-            collection.updateMany({"_id": {"$in": ids}}, {"sematic_value": "pending"});
+            collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}});
             res.send(JSON.stringify(items));
         });
         client.close();
