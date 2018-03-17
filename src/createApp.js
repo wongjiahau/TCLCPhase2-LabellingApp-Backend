@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 
+const url = 'mongodb://localhost:27017';
+const dbName = 'tclc';
+
 function createApp(portNumber, mongoCollectionName) {
     const app = express();
 
@@ -26,8 +29,6 @@ function createApp(portNumber, mongoCollectionName) {
     });
 
     app.get('/getPostsEnglish', (req, res) => {
-        const url = 'mongodb://localhost:27017';
-        const dbName = 'tclc';
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
