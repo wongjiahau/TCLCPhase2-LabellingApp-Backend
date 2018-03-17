@@ -94,9 +94,11 @@ describe('app', () => {
                 .end((err0, res0) => {
                     const objectId = res0.text;
                     console.log(objectId);
+                    const dic = {}
+                    dic[objectId] = 'newSemanticValue'
                     request(app)
                         .post('/submitEnglish')
-                        .send({objectId: 'newSemanticValue'})
+                        .send(dic)
                         .set('accept', 'json')
                         .end((err2, res2) => {
                             if(err2) { return done(err2);}
