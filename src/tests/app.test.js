@@ -80,6 +80,7 @@ describe('app', () => {
                 .end((err, res) => {
                     // Every Mongo document have a 24 chars _id
                     expect(res.text).to.have.lengthOf(24);
+                    done();
                 });
         });
         
