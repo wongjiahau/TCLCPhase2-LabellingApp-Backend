@@ -12,9 +12,9 @@ sudo apt-get install -y mongodb-org
 sudo service mongod start
 
 #Import json files
-cd ~ 
-curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > english.json
-curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > chinese.json
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > ~/english.json
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > ~/chinese.json
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/test.json > ~/test.json
 mongoimport --db tclc --collection english --drop --file ~/english.json --jsonArray
 mongoimport --db tclc --collection chinese --drop --file ~/chinese.json --jsonArray
 
