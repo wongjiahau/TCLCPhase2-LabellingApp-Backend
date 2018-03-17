@@ -76,6 +76,7 @@ function createApp(portNumber, mongoCollectionName) {
     });
 
     app.get('/submitEnglish', (req, res) => {
+        res.send('hey');
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
@@ -85,14 +86,13 @@ function createApp(portNumber, mongoCollectionName) {
                 if (dic.hasOwnProperty(key)) {           
                     const newSemanticValue = dic[key];
                     collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
-                        if(!error) {
-                            res.send('success');
-                        } else {
+                        if(error) {
                             res.send('failed');
                         }
                     });
                 }
             }
+            res.send('success');
         });
     });
 
