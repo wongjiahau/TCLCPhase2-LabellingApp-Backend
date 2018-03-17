@@ -90,6 +90,7 @@ describe('app', () => {
                             .send({id: objectId})
                             .end((err3, res3) => {
                                 expect(res3).to.eq('newSemanticValue');
+                                done();
                             });
                         });
 
