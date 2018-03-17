@@ -101,6 +101,7 @@ describe('app', () => {
                             if(error) {
                                 return done(error);
                             }
+                            
                             expect(response._id).to.have.lengthOf(24);
                             done();
                         });

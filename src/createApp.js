@@ -68,7 +68,7 @@ function createApp(portNumber, mongoCollectionName) {
             const collection = client.db(dbName).collection(mongoCollectionName);
             collection
                 .findOne({_id: new ObjectId(req.body.id)}, (err, item) => {
-                    res.setHeader('Content-Type', 'text/plain');
+                    res.setHeader('Content-Type', 'application/json');
                     res.send(item);
                     client.close();
                 })
