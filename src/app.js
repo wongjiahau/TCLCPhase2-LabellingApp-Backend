@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
 
@@ -22,10 +23,10 @@ app.get('/getPostsEnglish', (req, res) => {
         const collection = client.db(dbName).collection('english');
         collection.find().limit(10).toArray((err, items) => {
             const ids = items.map((x) => x._id);
-            res.send(JSON.stringify(ids));
+            collection.updateMany({"_id": {"$in": ids}}, {"sematic_value": "pending"});
             res.send(JSON.stringify(items));
-            client.close();
         });
+        client.close();
     });
 });
 
