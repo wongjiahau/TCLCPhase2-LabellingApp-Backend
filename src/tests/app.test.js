@@ -132,7 +132,7 @@ describe('app', () => {
                                 if(err3) {
                                     return done(err3);
                                 }
-                                expect(res3.body.semantic_value).to.eq('newSemanticValue');
+                                expect(res3.body.semantic_value).to.eq('newxSemanticValue');
                                 done();
                             });
                         });
