@@ -32,7 +32,7 @@ app.get('/getPostsEnglish', (req, res) => {
             // collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}});
             // res.send(JSON.stringify(items));
         });
-        client.close();
+        // client.close();
     });
 });
 
