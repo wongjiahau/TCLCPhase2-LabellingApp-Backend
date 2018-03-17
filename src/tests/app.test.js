@@ -1,6 +1,6 @@
 const createApp = require('../createApp');
 var request = require('supertest');
-const {expect} = require('chai');
+const expect = require('chai').expect;
 describe('app', () => {
     var app;
     before((done) => {
