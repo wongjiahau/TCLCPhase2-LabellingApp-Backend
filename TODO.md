@@ -2,3 +2,4 @@
 2-[]-Build API to allow front-end to request those posts
 3-[]-Build API for authentication
 4-[]-Input files needs to be objectilize first, because mongo don't accept array-like json
+5-[]-Write test for apis
