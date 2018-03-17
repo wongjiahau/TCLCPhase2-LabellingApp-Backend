@@ -22,15 +22,17 @@ app.get('/getPostsEnglish', (req, res) => {
     MongoClient.connect(url, (err, client) => {
         const collection = client.db(dbName).collection('english');
         collection.find().limit(10).toArray((err, items) => {
-            const ids = items.map((x) => x._id);
+            const ids = items.map((x) => new ObjectId(x._id));
             collection.find({'_id': new ObjectId(ids[0])}).toArray((err2, items2) => {
-                if(err2) {
-                    res.send(JSON.stringify(err2));
-                }
+                if(err2) { res.send(JSON.stringify(err2)); }
                 res.send(JSON.stringify(items2));
             })
-            // collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}});
-            // res.send(JSON.stringify(items));
+            collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}}, (updateError, updateResponse) => {
+                if(updateError) {
+                    res.send(JSON.stringify(updateError));
+                }
+                res.send(JSON.stringify(items));
+            });
         });
         // client.close();
     });
