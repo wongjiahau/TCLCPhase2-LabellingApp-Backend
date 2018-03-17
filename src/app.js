@@ -21,7 +21,7 @@ app.get('/getPostsEnglish', (req, res) => {
     MongoClient.connect(url, (err, client) => {
         const collection = client.db(dbName).collection('english');
         collection.find().limit(10).toArray((err, items) => {
-            const ids = itesm.map((x) => x._id);
+            const ids = items.map((x) => x._id);
             res.send(JSON.stringify(ids));
             res.send(JSON.stringify(items));
             client.close();
