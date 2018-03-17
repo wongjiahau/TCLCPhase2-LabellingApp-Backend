@@ -20,7 +20,7 @@ app.get('/getPostsEnglish', (req, res) => {
     const dbName = 'tclc';
     MongoClient.connect(url, function (err, client) {
         const collection = client.db(dbName).collection('english');
-        col.findOne().toArray(function (err, items) {
+        collection.findOne().toArray(function (err, items) {
             res.send(JSON.stringify(items));
             client.close();
         });
