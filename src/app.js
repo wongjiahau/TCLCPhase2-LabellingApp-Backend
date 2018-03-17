@@ -21,9 +21,9 @@ app.get('/getPostsEnglish', (req, res) => {
     const dbName = 'tclc';
     MongoClient.connect(url, (err, client) => {
         const collection = client.db(dbName).collection('english');
-        collection.find().limit(10).toArray((err, items) => {
+        collection.find({"semantic_value": "unassigned"}).limit(10).toArray((err, items) => {
             const ids = items.map((x) => new ObjectId(x._id));
-            collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}}, (updateError, updateResponse) => {
+            collection.updateMany({"_id": {"$in": ids}}, {"$set": {"semantic_value": "pending"}}, (updateError, updateResponse) => {
                 if(updateError) {
                     res.send(JSON.stringify(updateError));
                 }
