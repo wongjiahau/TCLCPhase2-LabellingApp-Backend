@@ -18,9 +18,9 @@ app.get('/getPostsChinese', (req, res) => {
 app.get('/getPostsEnglish', (req, res) => {
     const url = 'mongodb://localhost:27017';
     const dbName = 'tclc';
-    MongoClient.connect(url, function (err, client) {
+    MongoClient.connect(url, (err, client) => {
         const collection = client.db(dbName).collection('english');
-        collection.findOne().toArray(function (err, items) {
+        collection.findOne((err, items) => {
             res.send(JSON.stringify(items));
             client.close();
         });
