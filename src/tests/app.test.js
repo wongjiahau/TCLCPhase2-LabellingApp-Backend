@@ -111,16 +111,16 @@ describe('app', () => {
     describe('/submitEnglish', () => {
         it('should update MongoDb', (done) => {
             request(app)
-                .timeout(10000)
                 .get('/anObjectIdOfAPost')
+                .timeout(10000)
                 .end((err0, res0) => {
                     const objectId = res0.text;
                     console.log(objectId);
                     const dic = {}
                     dic[objectId] = 'newSemanticValue'
                     request(app)
-                        .timeout(10000)
                         .post('/submitEnglish')
+                        .timeout(10000)
                         .send(dic)
                         .set('accept', 'json')
                         .end((err2, res2) => {
