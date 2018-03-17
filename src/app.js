@@ -28,9 +28,9 @@ app.get('/getPostsEnglish', (req, res) => {
                     res.send(JSON.stringify(updateError));
                 }
                 res.send(JSON.stringify(items));
+                client.close();
             });
         });
-        // client.close();
     });
 });
 
