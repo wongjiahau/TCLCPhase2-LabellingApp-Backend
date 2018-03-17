@@ -115,7 +115,6 @@ describe('app', () => {
                 .timeout(10000)
                 .end((err0, res0) => {
                     const objectId = res0.text;
-                    console.log(objectId);
                     const dic = {}
                     dic[objectId] = 'newSemanticValue'
                     request(app)
