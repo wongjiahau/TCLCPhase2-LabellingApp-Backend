@@ -59,7 +59,7 @@ function createApp(portNumber, mongoCollectionName) {
             collection
                 .findOne((err, item) => {
                     res.setHeader('Content-Type', 'text/plain');
-                    res.send(item._id);
+                    res.send(item._id.replace(/['"]+/g, ''));
                     client.close();
                 })
         });
