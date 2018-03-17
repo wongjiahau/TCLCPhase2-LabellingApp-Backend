@@ -73,6 +73,18 @@ describe('app', () => {
         });
     });
 
+    describe('/anObjectIdOfAPost', () => {
+        it('should return an object id as plain text', (done) => {
+            request(app)
+                .get('/anObjectIdOfAPost')
+                .end((err, res) => {
+                    // Every Mongo document have a 24 chars _id
+                    expect(res.text).to.have.lengthOf(24);
+                });
+        });
+        
+    });
+
     describe('/submitEnglish', () => {
         it('should update MongoDb', (done) => {
             request(app)
