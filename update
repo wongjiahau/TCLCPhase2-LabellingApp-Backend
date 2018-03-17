@@ -1,0 +1,14 @@
+#!/bin/bash
+no_changes=$(git status | grep 'nothing to commit' | wc -l)
+if [ $no_changes -eq 1 ]; then
+    echo "No changes to be commited"
+    exit 1
+fi
+echo "Enter commit message (can be blank) : "
+read commit_message
+if [ -z $commit_message ]; then
+    commit_message="Update"
+fi
+git add .
+git commit -m "$commit_message"
+git push

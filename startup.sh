@@ -1,3 +1,8 @@
+# Install fish, so that the shell will be easy to use
+sudo apt-get update
+sudo apt-get install fish
+curl -L https://get.oh-my.fish | fish
+
 # Install and start mongo
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
@@ -22,5 +27,7 @@ npm install
 nodejs app.js &
 
 # Redirect port 3000 to port 80, because nodejs is running on port 3000
+sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
+# REMEMBER to test the site using http instead of https!
 
