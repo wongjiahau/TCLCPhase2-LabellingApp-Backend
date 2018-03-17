@@ -104,6 +104,7 @@ describe('app', () => {
                             if(err2) { return done(err2);}
                             request(app)
                             .get('/getPostObjectBasedOnId')
+                            .set('accept', 'json')
                             .send({id: objectId})
                             .end((err3, res3) => {
                                 expect(res3).to.eq('newSemanticValue');
