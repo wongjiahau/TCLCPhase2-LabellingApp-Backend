@@ -29,5 +29,12 @@ nodejs app.js &
 # Redirect port 3000 to port 80, because nodejs is running on port 3000
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
+#Import json files
+cd ~ 
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > english.json
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > chinese.json
+mongoimport --db tclc --collection english --drop --file ~/english.json --jsonArray
+mongoimport --db tclc --collection chinese --drop --file ~/chinese.json --jsonArray
+
 # REMEMBER to test the site using http instead of https!
 
