@@ -93,6 +93,7 @@ describe('app', () => {
                 .get('/anObjectIdOfAPost')
                 .end((err0, res0) => {
                     const objectId = res0;
+                    console.log("ObjecId is " + objectId);
                     request(app)
                         .post('/submitEnglish')
                         .send({objectId: 'newSemanticValue'})
