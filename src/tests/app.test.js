@@ -118,7 +118,7 @@ describe('app', () => {
                     const dic = {}
                     dic[objectId] = 'newSemanticValue'
                     request(app)
-                        .get('/submitEnglish')
+                        .post('/submitEnglish')
                         .timeout(10000)
                         .send(dic)
                         .set('accept', 'json')

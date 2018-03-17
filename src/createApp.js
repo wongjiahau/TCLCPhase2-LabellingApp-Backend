@@ -75,8 +75,7 @@ function createApp(portNumber, mongoCollectionName) {
         });
     });
 
-    app.get('/submitEnglish', (req, res) => {
-        res.send('hey');
+    app.post('/submitEnglish', (req, res) => {
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
