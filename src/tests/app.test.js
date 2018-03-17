@@ -13,7 +13,7 @@ describe('app', () => {
             console.log(stdout);
             console.log(stderr);
         })
-        app = createApp('test');
+        app = createApp(3333, 'test');
         done();
     });
 

@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
 
-function createApp(mongoCollectionName) {
+function createApp(portNumber, mongoCollectionName) {
     const app = express();
 
     app.use(bodyParser.json()); // support json encoded bodies
@@ -59,7 +59,7 @@ function createApp(mongoCollectionName) {
         }));
     });
 
-    app.listen(3000, () => console.log('Example app listening on port 3000!'));
+    app.listen(portNumber, () => console.log('Example app listening on port 3000!'));
     return app;
 }
 

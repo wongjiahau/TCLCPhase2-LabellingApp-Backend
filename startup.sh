@@ -22,6 +22,7 @@ mongoimport --db tclc --collection chinese --drop --file ~/chinese.json --jsonAr
 # Install node.js
 sudo apt-get install nodejs
 sudo apt-get install npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node # create symlinks for so that node is recognize
 
 # Clone the backend files
 cd ~
