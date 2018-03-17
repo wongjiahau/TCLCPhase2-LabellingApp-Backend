@@ -29,4 +29,16 @@ describe('app', () => {
             });
     });
 
+    it('should return different post for each call upon /getPostsEnglish', () => {
+        request(app)
+            .get('/getPostsEnglish')
+            .expect(200, (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                expect(res.body).to.have.lengthOf(10);
+                done();
+            });
+    });
+
 });
