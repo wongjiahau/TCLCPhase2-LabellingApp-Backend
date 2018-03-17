@@ -22,8 +22,8 @@ app.get('/getPostsEnglish', (req, res) => {
     MongoClient.connect(url, (err, client) => {
         const collection = client.db(dbName).collection('english');
         collection.find().limit(10).toArray((err, items) => {
-            const ids = items.map((x) => new ObjectId(x._id));
-            collection.find({"_id": ids[0]}).toArray((err2, items2) => {
+            const ids = items.map((x) => x._id);
+            collection.find(`ObjectId:("${ids[0]}")`).toArray((err2, items2) => {
                 res.send(JSON.stringify(items2));
             })
             // collection.updateMany({"_id": {"$in": ids}}, {"$set": {"sematic_value": "pending"}});
