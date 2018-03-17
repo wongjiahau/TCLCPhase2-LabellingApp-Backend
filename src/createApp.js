@@ -84,7 +84,7 @@ function createApp(portNumber, mongoCollectionName) {
             console.log(dic);
             for (var key in dic) {
                 if (dic.hasOwnProperty(key)) {           
-                    const newSemanticValue = dic[key];
+                    var newSemanticValue = dic[key];
                     console.log(newSemanticValue);
                     collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
                         if(error) {
