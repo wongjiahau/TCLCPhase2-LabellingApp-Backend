@@ -133,6 +133,8 @@ describe('app', () => {
                                 if(error) {
                                     return done(error);
                                 }
+                                console.log("This is dino test");
+                                console.log(res3.body);
                                 expect(res3.body.semantic_value).to.eq('newSemanticValue');
                                 done();
                             });
