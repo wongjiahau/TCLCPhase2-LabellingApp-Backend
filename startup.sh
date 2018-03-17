@@ -17,7 +17,6 @@ curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/tran
 curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > chinese.json
 mongoimport --db tclc --collection english --drop --file ~/english.json --jsonArray
 mongoimport --db tclc --collection chinese --drop --file ~/chinese.json --jsonArray
-mongoimport --db tclc --collection test --drop --file ~/english.json --jsonArray # For testing
 
 
 # Install node.js

@@ -4,15 +4,15 @@ const {expect} = require('chai');
 describe('app', () => {
     var app;
     before((done) => {
-        // const {exec} = require('child_process');
-        // exec('mongoimport --db tclc --collection test --drop --file ~/english.json --jsonArray', (err, stdout, stderr) => {
-        //     if (err) {
-        //         console.log(err);
-        //         return
-        //     }
-        //     console.log(stdout);
-        //     console.log(stderr);
-        // })
+        const {exec} = require('child_process');
+        exec('mongoimport --db tclc --collection test --drop --file ~/english.json --jsonArray', (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return
+            }
+            console.log(stdout);
+            console.log(stderr);
+        })
         app = createApp('test');
         done();
     });
