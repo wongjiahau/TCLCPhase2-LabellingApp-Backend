@@ -1,6 +1,8 @@
 const createApp = require('../createApp');
+const ObjectId = require('mongodb').ObjectId;
 var request = require('supertest');
 const expect = require('chai').expect;
+
 describe('app', () => {
     var app;
     before((done) => {
@@ -91,7 +93,7 @@ describe('app', () => {
             request(app)
                 .get('/anObjectIdOfAPost')
                 .end((err0, res0) => {
-                    const objectId = res0;
+                    const objectId = ObjectId(res0);
                     request(app)
                         .post('/submitEnglish')
                         .send({objectId: 'newSemanticValue'})
