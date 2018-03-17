@@ -51,7 +51,7 @@ describe('app', () => {
     });
 
     describe('/getPostsEnglish', () => {
-        it('should return different post for each call', () => {
+        it('should return different post for each call', (done) => {
             var firstIdOfFirstBadgeOfPosts;
             var secondIdOfFirstBadgeOfPosts;
             
