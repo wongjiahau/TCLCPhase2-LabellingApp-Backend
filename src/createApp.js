@@ -69,7 +69,7 @@ function createApp(portNumber, mongoCollectionName) {
             collection
                 .findOne({_id: new ObjectId(req.body.id)}, (err, item) => {
                     res.setHeader('Content-Type', 'text/plain');
-                    res.send(item.semantic_value);
+                    res.send(item);
                     client.close();
                 })
         });

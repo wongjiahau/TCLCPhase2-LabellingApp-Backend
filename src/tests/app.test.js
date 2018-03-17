@@ -87,6 +87,27 @@ describe('app', () => {
         
     });
 
+    describe('/getPostObjectBasedOnId', () => {
+        it('should return a mongo document', (done) => {
+            request(app)
+                .get('/anObjectIdOfAPost')
+                .end((err, res) => {
+                    const objectId = res.text;
+                    request(app)
+                        .get('/getPostObjectBasedOnId')
+                        .set('accept', 'json')
+                        .send({id: objectId})
+                        .end((error, response) => {
+                            if(error) {
+                                return done(error);
+                            }
+                            expect(response._id).to.have.lengthOf(24);
+                            done();
+                        });
+                });
+        });
+    });
+
     describe('/submitEnglish', () => {
         it('should update MongoDb', (done) => {
             request(app)
