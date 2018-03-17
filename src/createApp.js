@@ -85,6 +85,7 @@ function createApp(portNumber, mongoCollectionName) {
                 .db(dbName)
                 .collection(mongoCollectionName);
             const dic = req.body;
+            console.log(req.body);
             for (var key in dic) {
                 if (dic.hasOwnProperty(key)) {           
                     const newSemanticValue = dic[key];
