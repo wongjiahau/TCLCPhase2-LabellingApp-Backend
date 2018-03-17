@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 describe('app', () => {
     var app;
     before((done) => {
-        const {exec} = require('child_process');
+        const exec = require('child_process').exec;
         exec('mongoimport --db tclc --collection test --drop --file ~/english.json --jsonArray', (err, stdout, stderr) => {
             if (err) {
                 console.log(err);
