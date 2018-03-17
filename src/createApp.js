@@ -2,12 +2,14 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
+const cors = require('cors');
 
 function createApp(portNumber, mongoCollectionName) {
     const app = express();
 
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+    app.use(cors());
 
     app.get('/', (req, res) => {
         res.send('Hello World!');
@@ -24,8 +26,6 @@ function createApp(portNumber, mongoCollectionName) {
     });
 
     app.get('/getPostsEnglish', (req, res) => {
-        res.set('Access-Control-Allow-Origin', "*")
-        res.set('Access-Control-Allow-Methods', 'GET, POST')
         const url = 'mongodb://localhost:27017';
         const dbName = 'tclc';
         MongoClient.connect(url, (err, client) => {
