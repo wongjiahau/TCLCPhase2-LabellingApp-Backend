@@ -50,6 +50,49 @@ function createApp(portNumber, mongoCollectionName) {
         });
     });
 
+    app.get('/anObjectIdOfAPost', (req, res) => { // This is for unit testing purpose only
+        MongoClient.connect(url, (err, client) => {
+            const collection = client
+                .db(dbName)
+                .collection(mongoCollectionName);
+            collection
+                .findOne((err, item) => {
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.send(item._id);
+                    client.close();
+                })
+        });
+    });
+
+    app.get('/getPostObjectBasedOnId', (req, res) => { // This is for unit testing purpose only
+        MongoClient.connect(url, (err, client) => {
+            const collection = client
+                .db(dbName)
+                .collection(mongoCollectionName);
+            collection
+                .findOne({_id: new ObjectId(req.body.id)}, (err, item) => {
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.send(item.semantic_value);
+                    client.close();
+                })
+        });
+    });
+
+    app.post('/submitEnglish', (req, res) => {
+        MongoClient.connect(url, (err, client) => {
+            const collection = client
+                .db(dbName)
+                .collection(mongoCollectionName);
+            const dic = req.body;
+            for (var key in dic) {
+                if (dic.hasOwnProperty(key)) {           
+                    const newSemanticValue = dic[key];
+                    collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}})
+                }
+            }
+        });
+    });
+
     app.post('/login', (req, res) => {
         const userId = req.body.userId;
         const pass = req.body.pass;
