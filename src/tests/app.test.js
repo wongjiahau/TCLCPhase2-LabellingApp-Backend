@@ -130,7 +130,10 @@ describe('app', () => {
                             .set('accept', 'json')
                             .send({id: objectId})
                             .end((err3, res3) => {
-                                expect(res3).to.eq('newSemanticValue');
+                                if(error) {
+                                    return done(error);
+                                }
+                                expect(res3.body.semantic_value).to.eq('newSemanticValue');
                                 done();
                             });
                         });
