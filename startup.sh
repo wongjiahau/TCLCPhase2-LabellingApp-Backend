@@ -12,3 +12,15 @@ mongo --host 127.0.0.1:27017
 # Install node.js
 sudo apt-get install nodejs
 sudo apt-get install npm
+
+# Clone the backend files
+cd ~
+git clone https://github.com/wongjiahau/TCLCPhase2-LabellingApp-Backend.git
+cd TCLCPhase2-LabellingApp-Backend
+cd src 
+npm install
+nodejs app.js &
+
+# Redirect port 3000 to port 80, because nodejs is running on port 3000
+
+
