@@ -87,6 +87,8 @@ function createApp(portNumber, mongoCollectionName) {
                     collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
                         if(!error) {
                             res.send('success');
+                        } else {
+                            res.send('failed');
                         }
                     });
                 }
