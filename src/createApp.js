@@ -24,6 +24,8 @@ function createApp(portNumber, mongoCollectionName) {
     });
 
     app.get('/getPostsEnglish', (req, res) => {
+        res.set('Access-Control-Allow-Origin', "*")
+        res.set('Access-Control-Allow-Methods', 'GET, POST')
         const url = 'mongodb://localhost:27017';
         const dbName = 'tclc';
         MongoClient.connect(url, (err, client) => {

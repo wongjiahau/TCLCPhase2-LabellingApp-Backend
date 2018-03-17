@@ -3,3 +3,4 @@
 3-[]-Build API for authentication
 4-[]-Input files needs to be objectilize first, because mongo don't accept array-like json
 5-[]-Write test for apis
+6-[]-Set up cron job to reset all pendings posts every midnight

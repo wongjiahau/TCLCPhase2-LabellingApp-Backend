@@ -30,7 +30,8 @@ git clone https://github.com/wongjiahau/TCLCPhase2-LabellingApp-Backend.git
 cd TCLCPhase2-LabellingApp-Backend
 cd src 
 npm install
-nodejs app.js &
+sudo npm install -g forever
+forever start app.js &
 
 # Redirect port 3000 to port 80, because nodejs is running on port 3000
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
