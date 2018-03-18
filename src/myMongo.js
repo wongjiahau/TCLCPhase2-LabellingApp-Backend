@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 function MyMongo(dbName) {
-    this.dbname = dbname;
+    this.dbName = dbName;
 
     this.getSomeObjectIds = (callback) => {
         MongoClient.connect(url, (err, client) => {
