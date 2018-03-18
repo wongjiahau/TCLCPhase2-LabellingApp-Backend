@@ -1,3 +1,4 @@
+// @ts-check
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
@@ -5,8 +6,8 @@ const express = require('express');
 const cors = require('cors');
 const MyMongo = require('./myMongo').MyMongo;
 
-const url = 'mongodb://localhost:27017';
 
+const url = 'mongodb://localhost:27017';
 function createApp(portNumber, dbName) {
     const myMongo = new MyMongo(dbName);
     const app = express();
