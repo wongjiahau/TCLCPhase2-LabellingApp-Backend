@@ -61,14 +61,9 @@ function createApp(portNumber, dbName) {
     });
 
     app.get('/getPostObjectBasedOnId', (req, res) => { // This is for unit testing purpose only
-        MongoClient.connect(url, (err, client) => {
-            const collection = client.db(dbName).collection('english');
-            collection
-                .findOne({_id: new ObjectId(req.body.id)}, (err, item) => {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(item);
-                    client.close();
-                })
+        myMongo.getPostObjectBasedOnId(req.body.id, (err, item) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(item);
         });
     });
 
