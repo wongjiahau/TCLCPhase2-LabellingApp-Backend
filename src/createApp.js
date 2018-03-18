@@ -65,26 +65,26 @@ function createApp(portNumber, dbName) {
             () => {res.send('success');},
             (error) => {res.send('failed due to: ' + error)}
         );
-        return;
-        MongoClient.connect(url, (err, client) => {
-            const collection = client
-                .db(dbName)
-                .collection('english');
-            const dic = req.body;
-            console.log(dic);
-            for (var key in dic) {
-                if (dic.hasOwnProperty(key)) {           
-                    var newSemanticValue = dic[key];
-                    console.log(newSemanticValue);
-                    collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
-                        if(error) {
-                            res.send('failed');
-                        }
-                    });
-                }
-            }
-            res.send('success');
-        });
+        // return;
+        // MongoClient.connect(url, (err, client) => {
+        //     const collection = client
+        //         .db(dbName)
+        //         .collection('english');
+        //     const dic = req.body;
+        //     console.log(dic);
+        //     for (var key in dic) {
+        //         if (dic.hasOwnProperty(key)) {           
+        //             var newSemanticValue = dic[key];
+        //             console.log(newSemanticValue);
+        //             collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
+        //                 if(error) {
+        //                     res.send('failed');
+        //                 }
+        //             });
+        //         }
+        //     }
+        //     res.send('success');
+        // });
     });
 
     app.post('/login', (req, res) => {
