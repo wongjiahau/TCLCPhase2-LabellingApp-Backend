@@ -111,12 +111,14 @@ describe('app', () => {
     describe('/submitEnglish', () => {
         it('should update MongoDb', (done) => {
             request(app)
-                .get('/anObjectIdOfAPost')
+                .get('/someObjectIds')
                 .timeout(10000)
                 .end((err0, res0) => {
-                    const objectId1 = res0.text;
+                    const objectId1 = res0.body[0];
+                    const objectId2 = res0.body[1];
                     const dic = {}
-                    dic[objectId1] = 'newSemanticValue'
+                    dic[objectId1] = 'newSemanticValue';
+                    dic[objectId2] = 'anotherSemanticValue';
                     request(app)
                         .post('/submitEnglish')
                         .timeout(10000)
@@ -133,7 +135,17 @@ describe('app', () => {
                                     return done(err3);
                                 }
                                 expect(res3.body.semantic_value).to.eq('newSemanticValue');
-                                done();
+                                request(app)
+                                .get('/getPostObjectBasedOnId')
+                                .set('accept', 'json')
+                                .send({id: objectId2})
+                                .end((err4, res4) => {
+                                    if(err4) {
+                                        return done(err4);
+                                    }
+                                    expect(res4.body.semantic_value).to.eq('anotherSemanticValue');
+                                    done();
+                                });
                             });
                         });
 
