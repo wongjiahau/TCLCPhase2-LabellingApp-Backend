@@ -3,10 +3,12 @@ const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+const MyMongo = require('./myMongo').MyMongo;
 
 const url = 'mongodb://localhost:27017';
 
 function createApp(portNumber, dbName) {
+    const myMongo = new MyMongo(dbName);
     const app = express();
 
     app.use(bodyParser.json()); // support json encoded bodies
@@ -51,14 +53,9 @@ function createApp(portNumber, dbName) {
     });
 
     app.get('/someObjectIds', (req, res) => { // This is for unit testing purpose only
-        MongoClient.connect(url, (err, client) => {
-            const collection = client.db(dbName).collection('english');
-            collection
-                .find().limit(5).toArray((err, items) => {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify(items.map((x) => x._id)));
-                    client.close();
-                })
+        myMongo.getSomeObjectIds((err, items) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(items.map((x) => x._id)));
         });
     });
 
