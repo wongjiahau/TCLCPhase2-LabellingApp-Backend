@@ -90,13 +90,13 @@ describe('app', () => {
     describe('/getPostObjectBasedOnId', () => {
         it('should return a mongo document', (done) => {
             request(app)
-                .get('/anObjectIdOfAPost')
+                .get('/someObjectIds')
                 .end((err, res) => {
-                    const objectId = res.text;
+                    const objectIds = res.body;
                     request(app)
                         .get('/getPostObjectBasedOnId')
                         .set('accept', 'json')
-                        .send({id: objectId})
+                        .send({id: objectIds[0]})
                         .end((error, response) => {
                             if(error) {
                                 return done(error);
