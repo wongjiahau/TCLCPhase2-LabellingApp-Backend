@@ -12,7 +12,7 @@ function MyMongo(dbName) {
                 .find()
                 .limit(5)
                 .toArray((err, items) => {
-                    // callback(err, items);
+                    callback(err, items);
                     client.close();
                 })
         });
