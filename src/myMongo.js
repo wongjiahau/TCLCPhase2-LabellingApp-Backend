@@ -42,7 +42,7 @@ function MyMongo(dbName) {
                     const ids = items.map((x) => new ObjectId(x._id));
                     collection.updateMany({ "_id": { "$in": ids } }, { "$set": { "semantic_value": "pending" }
                     }, (updateError, updateResponse) => {
-                        callback(updateError, updateResponse);
+                        callback(updateError, items);
                         client.close();
                     });
                 });
