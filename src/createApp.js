@@ -5,9 +5,8 @@ const express = require('express');
 const cors = require('cors');
 
 const url = 'mongodb://localhost:27017';
-const dbName = 'tclc';
 
-function createApp(portNumber, mongoCollectionName) {
+function createApp(portNumber, dbName) {
     const app = express();
 
     app.use(bodyParser.json()); // support json encoded bodies
@@ -32,7 +31,7 @@ function createApp(portNumber, mongoCollectionName) {
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
-                .collection(mongoCollectionName);
+                .collection('english');
             collection
                 .find({"semantic_value": "unassigned"})
                 .limit(10)
@@ -53,7 +52,7 @@ function createApp(portNumber, mongoCollectionName) {
 
     app.get('/someObjectIds', (req, res) => { // This is for unit testing purpose only
         MongoClient.connect(url, (err, client) => {
-            const collection = client.db(dbName).collection(mongoCollectionName);
+            const collection = client.db(dbName).collection('english');
             collection
                 .find().limit(5).toArray((err, items) => {
                     res.setHeader('Content-Type', 'application/json');
@@ -65,7 +64,7 @@ function createApp(portNumber, mongoCollectionName) {
 
     app.get('/getPostObjectBasedOnId', (req, res) => { // This is for unit testing purpose only
         MongoClient.connect(url, (err, client) => {
-            const collection = client.db(dbName).collection(mongoCollectionName);
+            const collection = client.db(dbName).collection('english');
             collection
                 .findOne({_id: new ObjectId(req.body.id)}, (err, item) => {
                     res.setHeader('Content-Type', 'application/json');
@@ -79,7 +78,7 @@ function createApp(portNumber, mongoCollectionName) {
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
-                .collection(mongoCollectionName);
+                .collection('english');
             const dic = req.body;
             console.log(dic);
             for (var key in dic) {
@@ -108,7 +107,7 @@ function createApp(portNumber, mongoCollectionName) {
         }));
     });
 
-    app.listen(portNumber, () => console.log('Example app listening on port 3000!'));
+    app.listen(portNumber, () => console.log(`Example app listening on port ${portNumber}!`));
     return app;
 }
 
