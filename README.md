@@ -4,3 +4,8 @@
 cd src
 npm test
 ```
+
+## How to up the server?
+```
+./run_forever.sh
+```
