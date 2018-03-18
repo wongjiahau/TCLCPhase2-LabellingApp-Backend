@@ -51,13 +51,13 @@ function createApp(portNumber, mongoCollectionName) {
         });
     });
 
-    app.get('/anObjectIdOfAPost', (req, res) => { // This is for unit testing purpose only
+    app.get('/someObjectIds', (req, res) => { // This is for unit testing purpose only
         MongoClient.connect(url, (err, client) => {
             const collection = client.db(dbName).collection(mongoCollectionName);
             collection
-                .findOne((err, item) => {
-                    res.setHeader('Content-Type', 'text/plain');
-                    res.send(item._id.toString().replace(/['"]+/g, ''));
+                .find().limit(5).toArray((err, items) => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(items.map((x) => x._id)));
                     client.close();
                 })
         });

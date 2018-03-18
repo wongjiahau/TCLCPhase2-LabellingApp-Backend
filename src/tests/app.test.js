@@ -74,13 +74,13 @@ describe('app', () => {
         });
     });
 
-    describe('/anObjectIdOfAPost', () => {
-        it('should return an object id as plain text', (done) => {
+    describe('/someObjectIds', () => {
+        it('should return five object ids as json', (done) => {
             request(app)
-                .get('/anObjectIdOfAPost')
+                .get('/someObjectIds')
                 .end((err, res) => {
-                    // Every Mongo document have a 24 chars _id
-                    expect(res.text).to.have.lengthOf(24);
+                    console.log(res.body);
+                    expect(res.body).to.have.lengthOf(5);
                     done();
                 });
         });
@@ -114,9 +114,9 @@ describe('app', () => {
                 .get('/anObjectIdOfAPost')
                 .timeout(10000)
                 .end((err0, res0) => {
-                    const objectId = res0.text;
+                    const objectId1 = res0.text;
                     const dic = {}
-                    dic[objectId] = 'newSemanticValue'
+                    dic[objectId1] = 'newSemanticValue'
                     request(app)
                         .post('/submitEnglish')
                         .timeout(10000)
@@ -127,7 +127,7 @@ describe('app', () => {
                             request(app)
                             .get('/getPostObjectBasedOnId')
                             .set('accept', 'json')
-                            .send({id: objectId})
+                            .send({id: objectId1})
                             .end((err3, res3) => {
                                 if(err3) {
                                     return done(err3);
