@@ -53,7 +53,7 @@ function MyMongo(dbName) {
         MongoClient.connect(URL, (err, client) => {
             const collection = client
                 .db(dbName)
-                .collection('chinese');
+                .collection(language);
             const dic = updateDic;
             for (var key in dic) {
                 if (dic.hasOwnProperty(key)) {           
