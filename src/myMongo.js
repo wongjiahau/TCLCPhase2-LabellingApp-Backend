@@ -60,7 +60,9 @@ function MyMongo(dbName) {
                     var newSemanticValue = dic[key];
                     console.log(newSemanticValue);
                     collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
-                        errorCallback(error);
+                        if(error) {
+                            errorCallback(error);
+                        }
                     });
                 }
             }
