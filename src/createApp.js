@@ -27,7 +27,13 @@ function createApp(portNumber, dbName) {
     });
 
     app.get('/getPostsChinese', (req, res) => {
-        res.send("Not implemented yet");
+        myMongo.getPosts('chinese', (err, items) => {
+            if (err) {
+                res.send(JSON.stringify(err));
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(items));
+        });
     });
 
     app.get('/getPostsEnglish', (req, res) => {
