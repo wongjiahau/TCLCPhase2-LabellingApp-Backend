@@ -48,7 +48,27 @@ function MyMongo(dbName) {
                 });
         });
     }
+
+    this.submitUpdates = (language, updateDic, successCallback, errorCallback) => {
+        MongoClient.connect(URL, (err, client) => {
+            const collection = client
+                .db(dbName)
+                .collection('chinese');
+            const dic = updateDic;
+            for (var key in dic) {
+                if (dic.hasOwnProperty(key)) {           
+                    var newSemanticValue = dic[key];
+                    console.log(newSemanticValue);
+                    collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
+                        errorCallback(error);
+                    });
+                }
+            }
+            successCallback();
+        });
+    }
 }
+
 
 module.exports = {
     MyMongo

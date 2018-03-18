@@ -61,6 +61,11 @@ function createApp(portNumber, dbName) {
     });
 
     app.post('/submitEnglish', (req, res) => {
+        myMongo.submitUpdates('english', req.body, 
+            () => {res.send('success');},
+            (error) => {res.send('failed due to: ' + error)}
+        );
+        return;
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(dbName)
