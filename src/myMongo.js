@@ -1,10 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
-class MyMongo {
-    constructor(dbname) {
-        this.dbname = dbname;
-    }
+function MyMongo(dbName) {
+    this.dbname = dbname;
 
-    getSomeObjectIds(callback) {
+    this.getSomeObjectIds = (callback) => {
         MongoClient.connect(url, (err, client) => {
             const collection = client
                 .db(this.dbName)
