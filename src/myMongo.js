@@ -29,6 +29,25 @@ function MyMongo(dbName) {
                 })
         });
     }
+
+    this.getPosts = (language, callback) =>{
+        MongoClient.connect(URL, (err, client) => {
+            const collection = client
+                .db(dbName)
+                .collection(language);
+            collection
+                .find({"semantic_value": "unassigned"})
+                .limit(10)
+                .toArray((err, items) => {
+                    const ids = items.map((x) => new ObjectId(x._id));
+                    collection.updateMany({ "_id": { "$in": ids } }, { "$set": { "semantic_value": "pending" }
+                    }, (updateError, updateResponse) => {
+                        callback(updateError, updateResponse);
+                        client.close();
+                    });
+                });
+        });
+    }
 }
 
 module.exports = {

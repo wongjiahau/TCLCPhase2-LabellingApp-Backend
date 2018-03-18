@@ -31,25 +31,12 @@ function createApp(portNumber, dbName) {
     });
 
     app.get('/getPostsEnglish', (req, res) => {
-        MongoClient.connect(url, (err, client) => {
-            const collection = client
-                .db(dbName)
-                .collection('english');
-            collection
-                .find({"semantic_value": "unassigned"})
-                .limit(10)
-                .toArray((err, items) => {
-                    const ids = items.map((x) => new ObjectId(x._id));
-                    collection.updateMany({ "_id": { "$in": ids } }, { "$set": { "semantic_value": "pending" }
-                    }, (updateError, updateResponse) => {
-                        if (updateError) {
-                            res.send(JSON.stringify(updateError));
-                        }
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify(items));
-                        client.close();
-                    });
-                });
+        myMongo.getPosts('english', (err, items) => {
+            if (err) {
+                res.send(JSON.stringify(err));
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(items));
         });
     });
 
