@@ -160,7 +160,7 @@ describe('app', () => {
             request(app)
                 .get('/someObjectIds')
                 .end((err, res) => {
-                    console.log(res);
+                    console.log(res.body);
                 })
         });
         
