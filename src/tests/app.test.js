@@ -136,6 +136,7 @@ describe('app', () => {
                                     return done(err3);
                                 }
                                 expect(res3.body.semantic_value).to.eq('newSemanticValue');
+                                expect(res3.body.labelled_on).to.be.greaterThan(0);
                                 request(app)
                                 .get('/getPostObjectBasedOnId')
                                 .set('accept', 'json')
