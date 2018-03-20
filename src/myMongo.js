@@ -83,7 +83,7 @@ function MyMongo(dbName) {
                         collection.aggregate(
                             [{$match: {semantic_value: 'unassigned'}}, {$group: {_id:"$source", unassigned: {$sum:1}}}])
                             .toArray((err2, items2) => {
-                        callback(err2, Object.assign({}, items1 ,items2));
+                        callback(err2, items2);
                     });
                 });
             });
