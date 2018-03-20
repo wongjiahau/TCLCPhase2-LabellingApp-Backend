@@ -158,7 +158,7 @@ describe('app', () => {
     describe('/fetchAdminData', () => {
         it('case 1', () => {
             request(app)
-                .get('/someObjectIds')
+                .get('/fetchAdminData')
                 .end((err, res) => {
                     console.log(res.body);
                 })
