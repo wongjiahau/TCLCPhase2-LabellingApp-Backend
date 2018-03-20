@@ -71,6 +71,21 @@ function MyMongo(dbName) {
             successCallback();
         });
     }
+
+    this.fetchAdminData = (callback) => {
+        ['english', 'chinese'].forEach(language => {
+            MongoClient.connect(URL, (err, client) => {
+                const collection = client.db(dbName).collection(language);
+                collection.aggregate([{$group: {_id:"$source", total: {$sum:1}}}], (err1, items1) => {
+                    collection.aggregate([{$match: {semantic_value: 'unassigned'}}, {$group: {_id:"$source", unassigned: {$sum:1}}}], (err2, items2) => {
+                        console.log(items1);
+                        console.log(items2);
+                    });
+                });
+            });
+
+        });
+    }
 }
 
 
