@@ -59,10 +59,12 @@ function MyMongo(dbName) {
                 if (dic.hasOwnProperty(key)) {           
                     var newSemanticValue = dic[key];
                     console.log(newSemanticValue);
-                    collection.updateOne({"_id": new ObjectId(key)}, { "$set": {"semantic_value": newSemanticValue}}, (error, item) => {
-                        if(error) {
-                            errorCallback(error);
-                        }
+                    collection.updateOne({"_id": new ObjectId(key)}, 
+                    { "$set": {"semantic_value": newSemanticValue, "labelled_on": (new Date()).getTime()}}, 
+                        (error, item) => {
+                            if(error) {
+                                errorCallback(error);
+                            }
                     });
                 }
             }
