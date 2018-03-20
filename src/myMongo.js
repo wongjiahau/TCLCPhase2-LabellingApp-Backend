@@ -76,11 +76,14 @@ function MyMongo(dbName) {
         ['english', 'chinese'].forEach(language => {
             MongoClient.connect(URL, (err, client) => {
                 const collection = client.db(dbName).collection(language);
-                collection.aggregate([{$group: {_id:"$source", total: {$sum:1}}}]).toArray((err1, items1) => {
-                    console.log(items1);
-                    // callback(err1,items1);
-                    collection.aggregate([{$match: {semantic_value: 'unassigned'}}, {$group: {_id:"$source", unassigned: {$sum:1}}}], (err2, items2) => {
-                        // callback(err2, {a: items1, b: items2});
+                collection.aggregate(
+                    [{$group: {_id:"$source", total: {$sum:1}}}])
+                    .toArray((err1, items1) => {
+                        console.log(items1);
+                        collection.aggregate(
+                            [{$match: {semantic_value: 'unassigned'}}, {$group: {_id:"$source", unassigned: {$sum:1}}}])
+                            .toArray((err2, items2) => {
+                        callback(err2, Object.assign({}, items1 ,items2));
                     });
                 });
             });
