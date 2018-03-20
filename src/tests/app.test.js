@@ -154,4 +154,15 @@ describe('app', () => {
                 });
         });
     });
+
+    describe('/fetchAdminData', () => {
+        it('case 1', () => {
+            request(app)
+                .get('/someObjectIds')
+                .end((err, res) => {
+                    console.log(res);
+                })
+        });
+        
+    });
 });
