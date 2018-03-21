@@ -184,17 +184,10 @@ describe('app', () => {
     });
 
     describe('/fetchNumberOfPostLabelledToday', () => {
-        it('case 1', () => {
+        it('case 1', (done) => {
             request(app)
             .get('/fetchNumberOfPostLabelledToday')
-            .end((err, res) => {
-                console.log("yo");
-                console.log(res.body);
-                console.log("bye");
-                expect(false).to.eq(true);
-                expect(res.body).to.deep.eq(5);
-                console.log("bye");
-            });
+            .expect(200, 3, done);
         });
         
     });
