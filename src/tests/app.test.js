@@ -185,9 +185,11 @@ describe('app', () => {
 
     describe('/fetchNumberOfPostLabelledToday', () => {
         it('case 1', () => {
+            console.log("hey");
             request(app)
             .get('/fetchNumberOfPostLabelledToday')
             .end((err, res) => {
+                console.log("yo");
                 expect(res.body).to.eq(5);
             });
         });
