@@ -155,10 +155,10 @@ describe('app', () => {
         });
     });
 
-    describe('/fetchAdminData', () => {
+    describe('/fetchAdminDataEnglish', () => {
         it('case 1', () => {
             request(app)
-                .get('/fetchAdminData')
+                .get('/fetchAdminDataEnglish')
                 .end((err, res) => {
                     console.log(res.body);
                 })
