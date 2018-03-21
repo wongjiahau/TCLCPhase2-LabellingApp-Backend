@@ -78,7 +78,7 @@ function createApp(portNumber, dbName) {
         myMongo.fetchNumberOfPostLabelledToday('english', (err1, res1) => {
             myMongo.fetchNumberOfPostLabelledToday('chinese', (err2, res2) => {
                 res.setHeader('Content-Type', 'application/json');
-                res.send(res1 + res2);
+                res.send(JSON.stringify(res1 + res2));
             });
         });
     });
