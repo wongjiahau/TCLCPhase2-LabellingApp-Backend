@@ -172,14 +172,13 @@ describe('app', () => {
     });
 
     describe('/fetchAdminDataChinese', () => {
-        it('case 1', () => {
+        it('case 1', (done) => {
+            const expected = [ 
+                { _id: { source: 'jbtalks', semantic_value: 'unassigned' }, total: 100 } 
+            ];
             request(app)
             .get('/fetchAdminDataChinese')
-            .end((err, res) => {
-                expect(res.body).to.deep.eq([ 
-                    { _id: { source: 'jbtalks', semantic_value: 'unassigned' }, total: 100 } 
-                ]);
-            });
+            .expect(200, expected, done);
         });
     });
 
