@@ -174,7 +174,7 @@ describe('app', () => {
     describe('/fetchAdminDataChinese', () => {
         it('case 1', () => {
             request(app)
-            .get('/fetchAdminDataEnglish')
+            .get('/fetchAdminDataChinese')
             .end((err, res) => {
                 console.log(res.body);
                 return;
