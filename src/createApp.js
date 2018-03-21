@@ -74,6 +74,15 @@ function createApp(portNumber, dbName) {
         });
     });
 
+    app.get('/fetchNumberOfPostLabelledToday', (req, res) => {
+        myMongo.fetchNumberOfPostLabelledToday('english', (err1, res1) => {
+            myMongo.fetchNumberOfPostLabelledToday('chinese', (err2, res2) => {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(res1 + res2);
+            });
+        });
+    });
+
     app.post('/submitEnglish', (req, res) => {
         myMongo.submitUpdates('english', req.body, 
             () => {res.send('success');},

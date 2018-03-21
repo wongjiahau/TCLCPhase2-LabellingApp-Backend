@@ -181,6 +181,16 @@ describe('app', () => {
                 ]);
             });
         });
+    });
+
+    describe('/fetchNumberOfPostLabelledToday', () => {
+        it('case 1', () => {
+            request(app)
+            .get('/fetchNumberOfPostLabelledToday')
+            .end((err, res) => {
+                console.log(res.body);
+            });
+        });
         
     });
 });
