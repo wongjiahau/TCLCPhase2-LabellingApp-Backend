@@ -187,7 +187,7 @@ describe('app', () => {
         it('case 1', (done) => {
             request(app)
             .get('/fetchNumberOfPostLabelledToday')
-            .expect(200, 3, done);
+            .expect(200, 2, done);
         });
         
     });
