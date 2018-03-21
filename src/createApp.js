@@ -60,8 +60,8 @@ function createApp(portNumber, dbName) {
         });
     });
 
-    app.get('/fetchAdminData', (req, res) => {
-        myMongo.fetchAdminData((err, item) => {
+    app.get('/fetchAdminDataEnglish', (req, res) => {
+        myMongo.fetchAdminData('english', (err, item) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(item);
         });
