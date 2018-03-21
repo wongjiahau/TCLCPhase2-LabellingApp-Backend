@@ -158,8 +158,8 @@ describe('app', () => {
     describe('/fetchAdminDataEnglish', () => {
         it('case 1', (done) => {
             const expected = [ 
-                { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 80 },
-                { _id: { source: 'blog', semantic_value: 'pending' }, total: 18 },
+                { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
+                { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
                 { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
                 { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
             ];
