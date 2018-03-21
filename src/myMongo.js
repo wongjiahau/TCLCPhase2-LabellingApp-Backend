@@ -77,13 +77,13 @@ function MyMongo(dbName) {
             MongoClient.connect(URL, (err, client) => {
                 const collection = client.db(dbName).collection(language);
                 collection.aggregate(
-                    [{$group: {_id:"$source", total: {$sum:1}}}])
+                    [{ $group: { _id: { source: '$source', semantic_value: '$semantic_value' }, total: {$sum: 1} } }])
                     .toArray((err1, items1) => {
                         console.log(items1);
                         collection.aggregate(
                             [{$match: {semantic_value: 'unassigned'}}, {$group: {_id:"$source", unassigned: {$sum:1}}}])
                             .toArray((err2, items2) => {
-                        callback(err2, items2);
+                        // callback(err2, items2);
                     });
                 });
             });
