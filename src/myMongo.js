@@ -86,7 +86,8 @@ function MyMongo(dbName) {
     this.fetchNumberOfPostLabelledToday = (language, callback) => {
             MongoClient.connect(URL, (err, client) => {
                 const collection = client.db(dbName).collection(language);
-                collection.find({labelled_on: {$exists: true}}, {labelled_on :1, _id: 0}).toArray((err, items) => {
+                collection.find({semantic_value: {$nin: ['pending', 'unassigned']}, labelled_on: {$exists: true}}, {labelled_on :1, _id: 0})
+                .toArray((err, items) => {
                     const dates = items.map((x) => x.labelled_on);
                     const epochOfTodayMidnight = new Date();
                     epochOfTodayMidnight.setHours(0, 0, 0, 0);
