@@ -185,9 +185,10 @@ describe('app', () => {
 
     describe('/fetchNumberOfPostLabelledToday', () => {
         it('case 1', (done) => {
+            const expected = '2';
             request(app)
             .get('/fetchNumberOfPostLabelledToday')
-            .expect(200, 2, done);
+            .expect(200, expected, done);
         });
         
     });
