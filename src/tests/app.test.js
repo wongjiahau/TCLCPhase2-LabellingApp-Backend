@@ -160,7 +160,7 @@ describe('app', () => {
             request(app)
                 .get('/fetchAdminDataEnglish')
                 .end((err, res) => {
-                    console.log(res.body);
+                    console.log(res);
                 })
         });
         
