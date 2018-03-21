@@ -161,8 +161,8 @@ describe('app', () => {
             .get('/fetchAdminDataEnglish')
             .end((err, res) => {
                 expect(res.body).to.deep.eq([ 
-                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
-                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
+                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 80 },
+                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 18 },
                     { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
                     { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
                 ]);
@@ -188,7 +188,7 @@ describe('app', () => {
             request(app)
             .get('/fetchNumberOfPostLabelledToday')
             .end((err, res) => {
-                console.log(res.body);
+                expect(res.body).to.eq(5);
             });
         });
         
