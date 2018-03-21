@@ -78,7 +78,6 @@ function MyMongo(dbName) {
                 collection.aggregate(
                     [{ $group: { _id: { source: '$source', semantic_value: '$semantic_value' }, total: {$sum: 1} } }])
                     .toArray((err1, items1) => {
-                        console.log(items1);
                         callback(err1, items1);
                 });
             });
