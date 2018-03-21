@@ -191,6 +191,7 @@ describe('app', () => {
                 console.log("yo");
                 console.log(res.body);
                 console.log("bye");
+                expect(false).to.eq(true);
                 expect(res.body).to.deep.eq(5);
                 console.log("bye");
             });
