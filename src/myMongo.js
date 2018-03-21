@@ -90,7 +90,9 @@ function MyMongo(dbName) {
                     const dates = items.map((x) => x.labelled_on);
                     const epochOfTodayMidnight = new Date();
                     epochOfTodayMidnight.setHours(0, 0, 0, 0);
-                    callback(err, dates.filter((x) => x > epochOfTodayMidnight.getTime()).length);
+                    const numberOfPostLabelledToday = dates.filter((x) => x > epochOfTodayMidnight.getTime()).length;
+                    console.log(numberOfPostLabelledToday);
+                    callback(err, numberOfPostLabelledToday);
                 });
             });
 
