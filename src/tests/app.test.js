@@ -156,17 +156,16 @@ describe('app', () => {
     });
 
     describe('/fetchAdminDataEnglish', () => {
-        it('case 1', () => {
+        it('case 1', (done) => {
+            const expected = [ 
+                { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 80 },
+                { _id: { source: 'blog', semantic_value: 'pending' }, total: 18 },
+                { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
+                { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
+            ];
             request(app)
             .get('/fetchAdminDataEnglish')
-            .end((err, res) => {
-                expect(res.body).to.deep.eq([ 
-                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 80 },
-                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 18 },
-                    { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
-                    { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
-                ]);
-            });
+            .expect(200, expected, done);
         });
         
     });
