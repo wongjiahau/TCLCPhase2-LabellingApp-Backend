@@ -176,13 +176,8 @@ describe('app', () => {
             request(app)
             .get('/fetchAdminDataChinese')
             .end((err, res) => {
-                console.log(res.body);
-                return;
                 expect(res.body).to.deep.eq([ 
-                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
-                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
-                    { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
-                    { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
+                    { _id: { source: 'jbtalks', semantic_value: 'unassigned' }, total: 100 } 
                 ]);
             });
         });
