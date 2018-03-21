@@ -67,6 +67,13 @@ function createApp(portNumber, dbName) {
         });
     });
 
+    app.get('/fetchAdminDataChinese', (req, res) => {
+        myMongo.fetchAdminData('chinese', (err, item) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(item);
+        });
+    });
+
     app.post('/submitEnglish', (req, res) => {
         myMongo.submitUpdates('english', req.body, 
             () => {res.send('success');},

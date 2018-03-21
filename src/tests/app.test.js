@@ -158,10 +158,33 @@ describe('app', () => {
     describe('/fetchAdminDataEnglish', () => {
         it('case 1', () => {
             request(app)
-                .get('/fetchAdminDataEnglish')
-                .end((err, res) => {
-                    console.log(res.body);
-                })
+            .get('/fetchAdminDataEnglish')
+            .end((err, res) => {
+                expect(res.body).to.deep.eq([ 
+                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
+                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
+                    { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
+                    { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
+                ]);
+            });
+        });
+        
+    });
+
+    describe('/fetchAdminDataChinese', () => {
+        it('case 1', () => {
+            request(app)
+            .get('/fetchAdminDataEnglish')
+            .end((err, res) => {
+                console.log(res.body);
+                return;
+                expect(res.body).to.deep.eq([ 
+                    { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
+                    { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
+                    { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
+                    { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
+                ]);
+            });
         });
         
     });
