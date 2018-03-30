@@ -3,15 +3,18 @@
 version: '3'
 services:
   database:
-    image: mongo
+    build: ./dockerfiles/database
+    container_name: mymongo
     ports: 
       - 27017:27017
   
   restapi:
-    build: ./src
+    build: ./dockerfiles/restapi
+    container_name: mynode
     volumes: 
       - ./src:/usr/src/app
     ports:
       - 3000:3000
     depends_on:
       - database
+    

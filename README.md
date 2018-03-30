@@ -4,7 +4,9 @@
 
 ```bash
 
+docker-compose build
 docker-compose up
+./inject-sample-data.sh
 ```
 
 ## How to run test?
