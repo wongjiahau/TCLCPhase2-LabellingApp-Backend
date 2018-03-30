@@ -1,6 +1,8 @@
+# For more understanding about communication between containers, look at
+# https://docs.docker.com/compose/networking/
 version: '3'
 services:
-  mongodb:
+  database:
     image: mongo
     ports: 
       - 27017:27017
@@ -11,3 +13,5 @@ services:
       - ./src:/usr/src/app
     ports:
       - 3000:3000
+    depends_on:
+      - database

@@ -7,7 +7,7 @@ const cors = require('cors');
 const MyMongo = require('./myMongo').MyMongo;
 
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://database:27017';
 function createApp(portNumber, dbName) {
     const myMongo = new MyMongo(dbName);
     const app = express();
@@ -17,7 +17,7 @@ function createApp(portNumber, dbName) {
     app.use(cors());
 
     app.get('/', (req, res) => {
-        res.send('Hello World!');
+        res.send('Hello new World!');
     });
 
     app.get('/hello', (req, res) => {
@@ -62,6 +62,9 @@ function createApp(portNumber, dbName) {
 
     app.get('/fetchAdminDataEnglish', (req, res) => {
         myMongo.fetchAdminData('english', (err, item) => {
+            if(err) {
+                res.send(err);
+            }
             res.setHeader('Content-Type', 'application/json');
             res.send(item);
         });

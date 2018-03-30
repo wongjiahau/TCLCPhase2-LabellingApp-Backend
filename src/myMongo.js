@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-const URL = 'mongodb://localhost:27017';
+const URL = 'mongodb://database:27017';
 function MyMongo(dbName) {
     this.dbName = dbName;
 
