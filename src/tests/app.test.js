@@ -47,21 +47,17 @@ describe('app', () => {
             var firstIdOfFirstBadgeOfPosts;
             var secondIdOfFirstBadgeOfPosts;
             
-            request(app)
-                .get('/getPostsEnglish')
-                .expect(200, (err, res) => {
-                    if (err) { return done(err); }
-                    expect(res.body).to.have.lengthOf(10);
-                    firstIdOfFirstBadgeOfPosts = res.body[0]._id;
-                });
-            request(app)
-                .get('/getPostsEnglish')
-                .expect(200, (err, res) => {
-                    expect(res.body).to.have.lengthOf(10);
-                    secondIdOfFirstBadgeOfPosts = res.body[0]._id;
+            request(app).get('/getPostsEnglish').expect(200, (err, res) => {
+                if (err) { return done(err); }
+                expect(res.body.posts).to.have.lengthOf(10);
+                firstIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
+                request(app).get('/getPostsEnglish').expect(200, (err, res) => {
+                    expect(res.body.posts).to.have.lengthOf(10);
+                    secondIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
                     expect(firstIdOfFirstBadgeOfPosts).to.not.eq(secondIdOfFirstBadgeOfPosts);
                     done();
                 });
+            });
         });
     });
 
@@ -148,8 +144,8 @@ describe('app', () => {
     describe('/fetchAdminDataEnglish', () => {
         it('case 1', (done) => {
             const expected = [ 
-                { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 90 },
-                { _id: { source: 'blog', semantic_value: 'pending' }, total: 8 },
+                { _id: { source: 'blog', semantic_value: 'unassigned' }, total: 80 },
+                { _id: { source: 'blog', semantic_value: 'pending' }, total: 18 },
                 { _id: { source: 'blog', semantic_value: 'anotherSemanticValue' }, total: 1 },
                 { _id: { source: 'blog', semantic_value: 'newSemanticValue' }, total: 1 } 
             ];
