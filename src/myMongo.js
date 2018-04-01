@@ -61,16 +61,16 @@ function MyMongo(dbName) {
     });
   }
 
-  this.submitUpdates = (language, updateDic, successCallback, errorCallback) => {
+  this.submitUpdates = (language, submitData, successCallback, errorCallback) => {
     MongoClient.connect(URL, (err, client) => {
       const collection = client
         .db(dbName)
         .collection(language);
-      const dic = updateDic;
-      for (var key in dic) {
-        if (dic.hasOwnProperty(key)) {
-          var newSemanticValue = dic[key];
-          console.log(newSemanticValue);
+      const updates = submitData.updates;
+      console.log(submitData);
+      for (var key in updates) {
+        if (updates.hasOwnProperty(key)) {
+          var newSemanticValue = updates[key];
           collection.updateOne({
             "_id": new ObjectId(key)
           }, {
@@ -85,6 +85,18 @@ function MyMongo(dbName) {
           });
         }
       }
+      const merges = submitData.merges;
+      merges.forEach((m) => {
+        collection.updateMany({_id: {$in : m.absorbees.map((id) => new ObjectId(id))}}, {
+            $set: {
+              absorbedBy: m.absorber
+            }
+        }, (err2, res2) => {
+          console.log("hello");
+          console.log(res2);
+        });
+        collection.findOne({"_id": new ObjectId(m.absorber)})
+      });
       successCallback();
     });
   }
