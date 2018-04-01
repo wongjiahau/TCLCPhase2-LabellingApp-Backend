@@ -10,12 +10,13 @@
 ## How to run test?
 
 ```bash
-cd src
-npm test
+./init-containers.sh
+docker exec -it mynode /bin/bash -c 'npm test'
 ```
 
 ## How to up the server?
 
 ```bash
+# This is outdated currently
 ./run_forever.sh
 ```

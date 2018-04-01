@@ -5,16 +5,6 @@ const expect = require('chai').expect;
 describe('app', () => {
     var app;
     before((done) => {
-        const exec = require('child_process').exec;
-        exec(`mongoimport --db test --collection english --drop --file ~/english_sample.json --jsonArray;
-              mongoimport --db test --collection chinese --drop --file ~/chinese_sample.json --jsonArray;`, (err, stdout, stderr) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            console.log(stdout);
-            console.log(stderr);
-        })
         app = createApp(3333, 'test');
         done();
     });
