@@ -17,4 +17,6 @@ services:
       - 3000:3000
     depends_on:
       - database
+    environment:
+      - DEPLOY=1
     

@@ -1,4 +1,4 @@
 const createApp = require("./createApp");
-const DEBUGGING = true;
-const DBNAME = DEBUGGING ? 'test' : 'tclc';
+const DBNAME = process.env.DEPLOY ? 'tclc' : 'test';
+console.log("dbname is" + DBNAME);
 createApp(3000, DBNAME);
