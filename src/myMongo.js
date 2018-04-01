@@ -36,7 +36,9 @@ function MyMongo(dbName) {
   this.getPosts = (language, callback) => {
     MongoClient.connect(URL, (err, client) => {
       const collection = client.db(dbName).collection(language);
-      collection.findOne({"semantic_value": "unassigned"}, (error, response) => {
+      collection.findOne(
+        {$and : [{"semantic_value" : "unassigned"}, {absorbedBy: {$exists: false}}]}
+        , (error, response) => {
         const origin = response.origin;
         collection.find({"semantic_value": "unassigned", "origin": origin})
           .limit(10).toArray((err, items) => {
