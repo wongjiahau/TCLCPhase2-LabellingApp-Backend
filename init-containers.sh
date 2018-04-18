@@ -1,4 +1,6 @@
 #!/bin/bash
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > './data/chinese.json'
+curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > './data/english.json'
 docker-compose stop
 docker-compose build
 docker-compose up -d
