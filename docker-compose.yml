@@ -18,5 +18,5 @@ services:
     depends_on:
       - database
     environment:
-      - DEPLOY=0
+      - DEPLOY=1
     
