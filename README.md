@@ -10,15 +10,20 @@ You need to mention `--skip-curl` option so that it won't download the latest da
 ## How to run test?
 
 ```bash
-./init-containers.sh
+./init-containers.sh --skip-curl
 docker exec -it mynode /bin/bash -c 'npm test'
 ```
 
-## How to up the server?
+## How to deploy?
 
 ```bash
-# This is outdated currently
-./run_forever.sh
+# SSH into desired server
+# Install Docker
+# Install docker-compose
+cd ~
+git clone https://github.com/wongjiahau/TCLCPhase2-LabellingApp-Backend.git
+cd TCLCPhase2-LabellingApp-Backend
+./init-containers.sh
 ```
 
 # How to reset pending post?
