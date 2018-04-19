@@ -1,6 +1,10 @@
 #!/bin/bash
-curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > './dockerfiles/database/data/chinese.json'
-curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > './dockerfiles/database/data/english.json'
+if [ $1 = "--skip-curl" ]; then
+    echo "Skipping curling datasets"
+else
+    curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json > './dockerfiles/database/data/chinese.json'
+    curl https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json > './dockerfiles/database/data/english.json'
+fi
 docker-compose stop
 docker-compose build
 docker-compose up -d

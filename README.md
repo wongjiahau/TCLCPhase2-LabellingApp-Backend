@@ -3,8 +3,9 @@
 ## How to run development environment?
 
 ```bash
-./init-containers.sh
+./init-containers.sh --skip-curl
 ```
+You need to mention `--skip-curl` option so that it won't download the latest dataset (which is time consuming).
 
 ## How to run test?
 
