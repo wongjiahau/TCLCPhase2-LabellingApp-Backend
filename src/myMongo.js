@@ -94,12 +94,24 @@ function MyMongo(dbName) {
               absorbedBy: m.absorber
             }
         }, (err2, res2) => {
-          console.log("hello");
-          console.log(res2);
+          if(err2) return;
+          updateMalayPosts();
         });
         collection.findOne({"_id": new ObjectId(m.absorber)})
       });
-      successCallback();
+
+      function updateMalayPosts(){
+        const malayPosts = submitData.malayPosts;
+        collection.updateMany({_id: {$in : malayPosts.map((id) => new ObjectId(id))}}, {
+            $set: {
+              isMalay: true
+            }
+        }, (err3, res3) => {
+          if(!err3) successCallback();
+          // console.log(res3);
+        });
+      }
+
     });
   }
 

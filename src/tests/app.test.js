@@ -148,7 +148,8 @@ describe('app', () => {
                 absorber: objectId3,
                 absorbees: [objectId4, objectId5]
               }
-            ]
+            ],
+            malayPosts: [objectId1, objectId2]
           };
           request(app)
             .post('/submitEnglish')
@@ -168,6 +169,7 @@ describe('app', () => {
                     return done(err3);
                   }
                   expect(res3.body.semantic_value).to.eq('newSemanticValue');
+                  expect(res3.body.isMalay).to.eq(true);
                   expect(res3.body.labelled_on)
                     .to
                     .be
@@ -181,6 +183,7 @@ describe('app', () => {
                         return done(err4);
                       }
                       expect(res4.body.semantic_value).to.eq('anotherSemanticValue');
+                      expect(res4.body.isMalay).to.eq(true);
                       done();
                     });
                 });
