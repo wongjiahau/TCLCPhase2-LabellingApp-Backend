@@ -27,7 +27,18 @@ cd TCLCPhase2-LabellingApp-Backend
 ```
 
 # How to reset pending post?
-
 ```bash
 ./resetAllPendingPost.sh
+```
+
+## How to query current status?
+```
+docker exec -it mongo /bin/bash
+mongo
+db.english.find({semantic_value: "positive"}).count();
+db.english.find({semantic_value: "negative"}).count();
+db.english.find({semantic_value: "neutral"}).count();
+db.chinese.find({semantic_value: "positive"}).count();
+db.chinese.find({semantic_value: "negative"}).count();
+db.chinese.find({semantic_value: "neutral"}).count();
 ```
