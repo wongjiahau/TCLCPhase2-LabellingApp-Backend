@@ -1,4 +1,8 @@
 # TCLCPhase2-LabellingApp-Backend
+## How it works?
+It works by launching two docker containers
+- node REST API server
+- mongo server
 
 ## How to run development environment?
 
