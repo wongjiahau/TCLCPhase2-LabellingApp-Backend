@@ -11,18 +11,16 @@ const url = 'mongodb://database:27017';
 function createApp(portNumber, dbName) {
     const myMongo = new MyMongo(dbName);
     const app = express();
+    app.use(cors());
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
 
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
-    app.use(cors(
-        {
-        'allowedHeaders': ['sessionId', 'Content-Type'],
-        'exposedHeaders': ['sessionId'],
-        'origin': '*',
-        'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        'preflightContinue': false
-        }
-    ));
 
     app.get('/', (req, res) => {
         res.send('Hello new World!');
