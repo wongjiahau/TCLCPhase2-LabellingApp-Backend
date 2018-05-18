@@ -46,3 +46,8 @@ db.chinese.find({semantic_value: "positive"}).count();
 db.chinese.find({semantic_value: "negative"}).count();
 db.chinese.find({semantic_value: "neutral"}).count();
 ```
+
+## How to enable port 3000 on Google Compute Engine
+Go to https://stackoverflow.com/questions/21065922/how-to-open-a-specific-port-such-as-9090-in-google-compute-engine
+
+Use `target` as `http-server`.

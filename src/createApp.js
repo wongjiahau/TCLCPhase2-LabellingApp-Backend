@@ -14,7 +14,15 @@ function createApp(portNumber, dbName) {
 
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
-    app.use(cors());
+    app.use(cors(
+        {
+        'allowedHeaders': ['sessionId', 'Content-Type'],
+        'exposedHeaders': ['sessionId'],
+        'origin': '*',
+        'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        'preflightContinue': false
+        }
+    ));
 
     app.get('/', (req, res) => {
         res.send('Hello new World!');
