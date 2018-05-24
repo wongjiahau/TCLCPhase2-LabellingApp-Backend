@@ -30,11 +30,11 @@ function Database(usingSampleData = false) {
   }
 
   this.getSomeUids = (language = "english") => {
-    return values(this.DATA[language]).slice(0, 5).map(x => x.uid);
+    return values(this.DATA[language]).slice(0, 5).map(x => x._id);
   }
 
-  this.getPostObjectBasedOnUid = (uid, language = "english") => {
-    return this.DATA[language][uid];
+  this.getPostObjectBasedOnUid = (_id, language = "english") => {
+    return this.DATA[language][_id];
   }
 
   this.getPosts = (language) => {
@@ -43,7 +43,7 @@ function Database(usingSampleData = false) {
     data = data.filter(x => x.origin === data[0].origin).slice(0, 10);
     const updates = [];
     for (let i = 0; i < data.length; i++) {
-      updates.push(createUpdates(data[i].uid, "semantic_value", "pending"));
+      updates.push(createUpdates(data[i]._id, "semantic_value", "pending"));
     }
     this.writeUpdates(language, updates);
     return data;
@@ -61,21 +61,21 @@ function Database(usingSampleData = false) {
   this.submitUpdates = (language, submitData) => {
     const incomingUpdates = submitData.updates;
     const updates = [];
-    for (var uid in incomingUpdates) {
-      if (incomingUpdates.hasOwnProperty(uid)) {
-        var newSemanticValue = incomingUpdates[uid];
-        updates.push(createUpdates(uid, "semantic_value", newSemanticValue));
-        updates.push(createUpdates(uid, "labelled_on", (new Date()).getTime()));
+    for (var _id in incomingUpdates) {
+      if (incomingUpdates.hasOwnProperty(_id)) {
+        var newSemanticValue = incomingUpdates[_id];
+        updates.push(createUpdates(_id, "semantic_value", newSemanticValue));
+        updates.push(createUpdates(_id, "labelled_on", (new Date()).getTime()));
       }
     }
     submitData.merges.forEach(m => {
-      m.absorbees.forEach((uid) => {
-        updates.push(createUpdates(uid, "absorbedBy", m.absorber));
+      m.absorbees.forEach((_id) => {
+        updates.push(createUpdates(_id, "absorbedBy", m.absorber));
       })
     });
     
-    submitData.malayPosts.forEach(uid => {
-      updates.push(createUpdates(uid, "isMalay", true));
+    submitData.malayPosts.forEach(_id => {
+      updates.push(createUpdates(_id, "isMalay", true));
     });
 
     this.writeUpdates(language, updates);
@@ -106,9 +106,9 @@ function loadData(language /* "english" or "chinese" */, usingSampleData = false
   const result = {}
   // Setting UID for every post object using hash algorithm
   for (let i = 0; i < json.length; i++) {
-    const uid = hash(json[i]);
-    json[i].uid = uid;
-    result[uid] = json[i]
+    const _id = hash(json[i]);
+    json[i]._id = _id;
+    result[_id] = json[i]
   }
 
   // Applying updates
@@ -123,14 +123,14 @@ function loadData(language /* "english" or "chinese" */, usingSampleData = false
   return result;
 }
 
-function createUpdates(uid, propertyName, newValue) {
+function createUpdates(_id, propertyName, newValue) {
   return {
-    uid: uid,
+    _id: _id,
     propertyName: propertyName,
     newValue: newValue
   };
 }
 
 function applyUpdate(data, update) {
-  data[update.uid][update.propertyName] = update.newValue;
+  data[update._id][update.propertyName] = update.newValue;
 }

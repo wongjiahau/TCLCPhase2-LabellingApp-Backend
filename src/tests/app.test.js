@@ -43,10 +43,10 @@ describe('app', () => {
           return done(err);
         }
         expect(res.body.posts).to.have.lengthOf(10);
-          firstIdOfFirstBadgeOfPosts = res.body.posts[0].uid;
+          firstIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
           request(app).get('/getPostsEnglish').expect(200, (err, res) => {
             expect(res.body.posts).to.have.lengthOf(10);
-            secondIdOfFirstBadgeOfPosts = res.body.posts[0].uid;
+            secondIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
             expect(firstIdOfFirstBadgeOfPosts).to.not.eq(secondIdOfFirstBadgeOfPosts);
             done();
           });
@@ -64,10 +64,10 @@ describe('app', () => {
           return done(err);
         }
         expect(res.body.posts).to.have.lengthOf(6);
-          firstIdOfFirstBadgeOfPosts = res.body.posts[0].uid;
+          firstIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
           request(app).get('/getPostsChinese').expect(200, (err, res) => {
             expect(res.body.posts).to.have.lengthOf(8);
-            secondIdOfFirstBadgeOfPosts = res.body.posts[0].uid;
+            secondIdOfFirstBadgeOfPosts = res.body.posts[0]._id;
             expect(firstIdOfFirstBadgeOfPosts).to.not.eq(secondIdOfFirstBadgeOfPosts);
             done();
           });
@@ -95,8 +95,8 @@ describe('app', () => {
   describe('/getPostObjectBasedOnUid', () => {
     it('should return a post object', (done) => {
       request(app).get('/someUids').end((err, res) => {
-          const uids = res.body;
-          request(app).get('/getPostObjectBasedOnUid').set('accept', 'json').send({id: uids[0]}).end((error, response) => {
+          const _ids = res.body;
+          request(app).get('/getPostObjectBasedOnUid').set('accept', 'json').send({id: _ids[0]}).end((error, response) => {
             if (error) {
               return done(error);
             }
@@ -108,7 +108,7 @@ describe('app', () => {
               related_to: [ 'najib', 'mahathir' ],
               semantic_value: 'unassigned',
               belongs_to: 'p0',
-              uid: '591ec867dd3d3af48e7eaaa7199c532a6bd648d8' 
+              _id: '591ec867dd3d3af48e7eaaa7199c532a6bd648d8' 
             });
             done();
           });
