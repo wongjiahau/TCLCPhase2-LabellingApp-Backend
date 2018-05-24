@@ -81,6 +81,14 @@ function Database(usingSampleData = false) {
     this.writeUpdates(language, updates);
     return "ok";
   }
+
+  this.generateOutput = (language) => {
+    console.log(`
+      Generating output . . .
+      Saving file as ./${language}_output.json
+    `);
+    fs.writeFileSync(`./${language}_output.json`, JSON.stringify(this.DATA[language], null, 2));
+  }
 }
 
 

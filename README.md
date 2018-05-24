@@ -69,5 +69,11 @@ cd src
 node app.js
 ```
 
+## How to get the output file?
+```
+cd src
+node generateOutput.js
+```
+
 
 

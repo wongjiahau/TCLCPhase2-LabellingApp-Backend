@@ -1,6 +1,4 @@
 // @ts-check
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
@@ -16,7 +14,6 @@ function tryDo(lambda) {
     }
 }
 
-const url = 'mongodb://database:27017';
 function createApp(portNumber, useSampleData = false) {
     const database = new Database(useSampleData);
     const app = express();
