@@ -63,10 +63,30 @@ cd src
 npm run test
 ```
 
-## How to run the server?
+## How to run the server (during development)?
 ```
 cd src
 node app.js
+```
+
+## How to run the server (for deployment)?
+First, install `forever`. (Read more [at here](https://github.com/foreverjs/forever))
+
+This program (`forever`) is to make sure the server is restarted whenever it crashes.
+```
+npm i -g forever
+```
+Then, 
+```
+cd src
+forever -o server.log start app.js
+```
+The log file will be located at `server.log`.
+
+## How to stop the server?
+```
+cd src
+forever stop app.js
 ```
 
 ## How to get the output file?
