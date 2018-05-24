@@ -1,2 +1,6 @@
 **/node_modules
 **/*npm-debug.log
+data/english/actualData/updates
+data/chinese/actualData/updates
+data/english/sampleData/updates
+data/chinese/sampleData/updates
