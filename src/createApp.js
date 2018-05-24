@@ -11,7 +11,8 @@ function tryDo(lambda) {
         const result = lambda();
         return result;
     } catch(error) {
-        return error;
+        console.log(`Error caught at tryDo : ${error}`);
+        return {error: error};
     }
 }
 
@@ -44,13 +45,13 @@ function createApp(portNumber, useSampleData = false) {
     app.get('/getPostsChinese', (req, res) => {
         const result = tryDo(() => myMongo.getPosts("chinese"));
         res.setHeader('Content-Type', 'application/json');
-        res.send(result);
+        res.send({posts: result});
     });
 
     app.get('/getPostsEnglish', (req, res) => {
         const result = tryDo(() => myMongo.getPosts("english"));
         res.setHeader('Content-Type', 'application/json');
-        res.send(result);
+        res.send({posts: result});
     });
 
     app.get('/resetUpdates', (req, res) => {
@@ -63,18 +64,32 @@ function createApp(portNumber, useSampleData = false) {
         }
     })
 
-    app.get('/someObjectIds', (req, res) => { // This is for unit testing purpose only
-        myMongo.getSomeObjectIds((err, items) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(items.map((x) => x._id)));
-        });
+    app.get('/someUids', (req, res) => { // This is for unit testing purpose only
+        const result = tryDo(() => myMongo.getSomeUids());
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(result));
     });
 
-    app.get('/getPostObjectBasedOnId', (req, res) => { // This is for unit testing purpose only
-        myMongo.getPostObjectBasedOnId(req.body.id, (err, item) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(item);
-        });
+    app.get('/getPostObjectBasedOnUid', (req, res) => { // This is for unit testing purpose only
+        const result = tryDo(() => myMongo.getPostObjectBasedOnUid(req.body.id));
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(result));
+    });
+
+    app.post('/submitEnglish', (req, res) => {
+        const result = tryDo(() => myMongo.submitUpdates("english", req.body));
+        if(result.error) {
+            res.send("Failed due to: " + result.error)
+            return;
+        }
+        res.send("ok");
+    });
+
+    app.post('/submitChinese', (req, res) => {
+        myMongo.submitUpdates('chinese', req.body, 
+            () => {res.send('success');},
+            (error) => {res.send('failed due to: ' + error)}
+        );
     });
 
     app.get('/fetchAdminDataEnglish', (req, res) => {
@@ -103,19 +118,6 @@ function createApp(portNumber, useSampleData = false) {
         });
     });
 
-    app.post('/submitEnglish', (req, res) => {
-        myMongo.submitUpdates('english', req.body, 
-            () => {res.send('success');},
-            (error) => {res.send('failed due to: ' + error)}
-        );
-    });
-
-    app.post('/submitChinese', (req, res) => {
-        myMongo.submitUpdates('chinese', req.body, 
-            () => {res.send('success');},
-            (error) => {res.send('failed due to: ' + error)}
-        );
-    });
 
     app.post('/login', (req, res) => {
         const userId = req.body.userId;

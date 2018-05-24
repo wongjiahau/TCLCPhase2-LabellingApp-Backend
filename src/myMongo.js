@@ -1,5 +1,3 @@
-// Global variables (this is dangerous...)
-const DATA = {};
 
 // Import modules
 const fs = require("fs");
@@ -41,14 +39,6 @@ function loadData(language /* "english" or "chinese" */, usingSampleData = false
   return result;
 }
 
-function writeUpdates(language, usingSampleData, updates) {
-  const currentEpoch = new Date().getTime();
-  const filePath = `${getDataPath(language, usingSampleData)}/updates/${currentEpoch}.json`;
-  for (let i = 0; i < updates.length; i++) {
-    applyUpdate(DATA[language], updates[i]);
-  }
-  fs.writeFileSync(filePath, JSON.stringify(updates, null, 2));
-}
 
 function createUpdates(uid, propertyName, newValue) {
   return {
@@ -68,114 +58,80 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const URL = 'mongodb://database:27017';
 function MyMongo(usingSampleData = false) {
+  this.DATA = {};
   this.usingSampleData = usingSampleData;
+  
+  this.loadData = () => {
+    this.DATA["english"] = loadData("english", this.usingSampleData);
+    this.DATA["chinese"] = loadData("chinese", this.usingSampleData);
+  }
 
-  DATA["english"] = loadData("english", usingSampleData);
-  DATA["chinese"] = loadData("chinese", usingSampleData);
+  this.loadData();
   
   
   this.resetUpdates = (language) => {
     console.log("Resetting updates for " + language);
     const updatePath = getDataPath(language, this.usingSampleData) + "/updates";
     const filenames = fs.readdirSync(updatePath);
-    console.log(updatePath);
     filenames.forEach(name => {
       console.log(`Removing ${updatePath}/${name}`);
       fs.unlinkSync(`${updatePath}/${name}`);
     })
+    this.loadData()
   }
 
-  this.getSomeObjectIds = (callback) => {
-    MongoClient.connect(URL, (err, client) => {
-      const collection = client
-        .db(this.dbName)
-        .collection('english');
-      collection
-        .find()
-        .limit(5)
-        .toArray((err, items) => {
-          callback(err, items);
-          client.close();
-        })
-    });
+  this.getSomeUids = (language = "english") => {
+    return values(this.DATA[language]).slice(0, 5).map(x => x.uid);
   }
 
-  this.getPostObjectBasedOnId = (objectId, callback) => {
-    MongoClient.connect(URL, (err, client) => {
-      const collection = client
-        .db(dbName)
-        .collection('english');
-      collection.findOne({
-        _id: new ObjectId(objectId)
-      }, (err, item) => {
-        callback(err, item);
-        client.close();
-      })
-    });
+  this.getPostObjectBasedOnUid = (uid, language = "english") => {
+    return this.DATA[language][uid];
   }
 
   this.getPosts = (language) => {
-    let data = values(DATA[language]);
+    let data = values(this.DATA[language]);
     data = data.filter(x => x.semantic_value === "unassigned" && !x.hasOwnProperty("absorbedBy"));
     data = data.filter(x => x.origin === data[0].origin).slice(0, 10);
     const updates = [];
     for (let i = 0; i < data.length; i++) {
       updates.push(createUpdates(data[i].uid, "semantic_value", "pending"));
     }
-    writeUpdates(language, usingSampleData, updates);
+    this.writeUpdates(language, updates);
     return data;
   }
 
-  this.submitUpdates = (language, submitData, successCallback, errorCallback) => {
-    MongoClient.connect(URL, (err, client) => {
-      const collection = client
-        .db(dbName)
-        .collection(language);
-      const updates = submitData.updates;
-      console.log(submitData);
-      for (var key in updates) {
-        if (updates.hasOwnProperty(key)) {
-          var newSemanticValue = updates[key];
-          collection.updateOne({
-            "_id": new ObjectId(key)
-          }, {
-            "$set": {
-              "semantic_value": newSemanticValue,
-              "labelled_on": (new Date()).getTime()
-            }
-          }, (error, item) => {
-            if (error) {
-              errorCallback(error);
-            }
-          });
+  this.writeUpdates = (language, updates) => {
+    const currentEpoch = new Date().getTime();
+    const filePath = `${getDataPath(language, this.usingSampleData)}/updates/${currentEpoch}.json`;
+    for (let i = 0; i < updates.length; i++) {
+      applyUpdate(this.DATA[language], updates[i]);
+    }
+    fs.writeFileSync(filePath, JSON.stringify(updates, null, 2));
+  }
+
+  this.submitUpdates = (language, submitData) => {
+      const incomingUpdates = submitData.updates;
+      const updates = [];
+      for (var uid in incomingUpdates) {
+        if (incomingUpdates.hasOwnProperty(uid)) {
+          var newSemanticValue = incomingUpdates[uid];
+          updates.push(createUpdates(uid, "semantic_value", newSemanticValue));
+          updates.push(createUpdates(uid, "labelled_on", (new Date()).getTime()));
         }
       }
-      const merges = submitData.merges;
-      merges.forEach((m) => {
-        collection.updateMany({_id: {$in : m.absorbees.map((id) => new ObjectId(id))}}, {
-            $set: {
-              absorbedBy: m.absorber
-            }
-        }, (err2, res2) => {
-          if(err2) return;
-          updateMalayPosts();
-        });
-        collection.findOne({"_id": new ObjectId(m.absorber)})
+      submitData.merges.forEach(m => {
+        m.absorbees.forEach((uid) => {
+          updates.push(createUpdates(uid, "absorbedBy", m.absorber));
+        })
+      });
+      
+      submitData.malayPosts.forEach(uid => {
+        updates.push(createUpdates(uid, "isMalay", true));
       });
 
-      function updateMalayPosts(){
-        const malayPosts = submitData.malayPosts;
-        collection.updateMany({_id: {$in : malayPosts.map((id) => new ObjectId(id))}}, {
-            $set: {
-              isMalay: true
-            }
-        }, (err3, res3) => {
-          if(!err3) successCallback();
-          // console.log(res3);
-        });
-      }
-
-    });
+      this.writeUpdates(language, updates);
+      return "ok";
+    }
   }
 
   this.fetchAdminData = (language, callback) => {
@@ -227,7 +183,6 @@ function MyMongo(usingSampleData = false) {
 
   }
 
-}
 
 module.exports = {
   MyMongo
