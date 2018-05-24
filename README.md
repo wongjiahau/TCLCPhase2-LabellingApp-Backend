@@ -57,6 +57,12 @@ Since a new file is created for every updates, there will be a problem where the
 
 To overcome that issue, you might want to look at https://unix.stackexchange.com/questions/26598/how-can-i-increase-the-number-of-inodes-in-an-ext4-filesystem
 
+## How to get started?
+- Firstly, make sure you are using `UNIX/Linux`, such as Ubuntu or ArchLinux. If you are using Windows you will faced a lot of problem.
+- Secondly, you will need to install Node.js ([Click here for how to install Node.js](http://lmgtfy.com/?q=how+to+install+nodejs+on+linux) )
+
+*P/S: Sorry for being so mean, that's just a joke.*
+
 ## How to run test?
 ```
 cd src
