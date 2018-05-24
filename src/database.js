@@ -89,6 +89,19 @@ function Database(usingSampleData = false) {
     `);
     fs.writeFileSync(`./${language}_output.json`, JSON.stringify(this.DATA[language], null, 2));
   }
+
+  this.generateAnalysisReport = (language) => {
+    const data = values(this.DATA[language]);
+    const count = (posts, semanticValue) => posts.filter(x => x.semantic_value === semanticValue).length;
+    return {
+      positive:   count(data, "positive"),
+      negative:   count(data, "negative"),
+      neutral:    count(data, "neutral"),
+      pending:    count(data, "pending"),
+      unassigned: count(data, "unassigned"),
+      merged:     data.filter(x => x.hasOwnProperty("absorbedBy")).length
+    };
+  }
 }
 
 

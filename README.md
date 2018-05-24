@@ -75,5 +75,14 @@ cd src
 node generateOutput.js
 ```
 
+## How to see current progess?
+Go to the following link:
+```
+http://IP_ADDRESS/reportForEnglish
+http://IP_ADDRESS/reportForChinese
+```
+Example of `IP_ADDRESS` is :
+- `localhost:3000`
+- `36.23.123.123`
 
 

@@ -91,6 +91,16 @@ function createApp(portNumber, useSampleData = false) {
         res.send("ok");
     });
 
+    app.get('/reportForEnglish', (req, res) => {
+        const result = tryDo(() => database.generateAnalysisReport("english"));
+        res.send(result);
+    });
+
+    app.get('/reportForChinese', (req, res) => {
+        const result = tryDo(() => database.generateAnalysisReport("chinese"));
+        res.send(result);
+    });
+
     app.get('/fetchAdminDataEnglish', (req, res) => {
         res.send("Unimplemented yet");
         // myMongo.fetchAdminData('english', (err, item) => {
