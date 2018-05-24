@@ -2,60 +2,10 @@
 const fs = require("fs");
 const hash = require("object-hash");
 
-
-// Polyfill of Object.values()  // Refer https://stackoverflow.com/questions/11734417/javascript-equivalent-of-pythons-values-dictionary-method
-function values(o){return Object.keys(o).map(function(k){return o[k]})};
-
-function getDataPath(language, usingSampleData = false) {
-  // Where the data is stored
-  const base = `../dockerfiles/database/data`;
-  return `${base}/${language}/${usingSampleData ? "sampleData" : "actualData"}`;
-}
-
-function loadData(language /* "english" or "chinese" */, usingSampleData = false) {
-  console.log("Loading data for " + language);
-  const path = getDataPath(language, usingSampleData);
-  const file = fs.readFileSync(`${path}/data.json`).toString();
-  const json = JSON.parse(file);
-
-  const result = {}
-  // Setting UID for every post object using hash algorithm
-  for (let i = 0; i < json.length; i++) {
-    const uid = hash(json[i]);
-    json[i].uid = uid;
-    result[uid] = json[i]
-  }
-
-  // Applying updates
-  const updatePath = `${path}/updates`;
-  const filenames = fs.readdirSync(updatePath);
-  filenames.forEach(name => {
-    const updates = JSON.parse(fs.readFileSync(`${updatePath}/${name}`).toString());
-    updates.forEach(u => applyUpdate(result, u));
-  });
-
-  console.log(`Total number of records for ${language} = ${values(result).length}`);
-  return result;
-}
-
-
-function createUpdates(uid, propertyName, newValue) {
-  return {
-    uid: uid,
-    propertyName: propertyName,
-    newValue: newValue
-  };
-}
-
-function applyUpdate(data, update) {
-  data[update.uid][update.propertyName] = update.newValue;
-}
-
-
-
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
-const URL = 'mongodb://database:27017';
+/**
+ * The definition for Database class
+ * Note that its actually using plain filesystem
+ */
 function Database(usingSampleData = false) {
   this.DATA = {};
   this.usingSampleData = usingSampleData;
@@ -137,3 +87,50 @@ function Database(usingSampleData = false) {
 module.exports = {
   Database
 };
+
+// Polyfill of Object.values()  // Refer https://stackoverflow.com/questions/11734417/javascript-equivalent-of-pythons-values-dictionary-method
+function values(o){return Object.keys(o).map(function(k){return o[k]})};
+
+function getDataPath(language, usingSampleData = false) {
+  // Where the data is stored
+  const base = `../data`;
+  return `${base}/${language}/${usingSampleData ? "sampleData" : "actualData"}`;
+}
+
+function loadData(language /* "english" or "chinese" */, usingSampleData = false) {
+  console.log("Loading data for " + language);
+  const path = getDataPath(language, usingSampleData);
+  const file = fs.readFileSync(`${path}/data.json`).toString();
+  const json = JSON.parse(file);
+
+  const result = {}
+  // Setting UID for every post object using hash algorithm
+  for (let i = 0; i < json.length; i++) {
+    const uid = hash(json[i]);
+    json[i].uid = uid;
+    result[uid] = json[i]
+  }
+
+  // Applying updates
+  const updatePath = `${path}/updates`;
+  const filenames = fs.readdirSync(updatePath);
+  filenames.forEach(name => {
+    const updates = JSON.parse(fs.readFileSync(`${updatePath}/${name}`).toString());
+    updates.forEach(u => applyUpdate(result, u));
+  });
+
+  console.log(`Total number of records for ${language} = ${values(result).length}`);
+  return result;
+}
+
+function createUpdates(uid, propertyName, newValue) {
+  return {
+    uid: uid,
+    propertyName: propertyName,
+    newValue: newValue
+  };
+}
+
+function applyUpdate(data, update) {
+  data[update.uid][update.propertyName] = update.newValue;
+}
