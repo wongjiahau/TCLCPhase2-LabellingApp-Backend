@@ -6,13 +6,22 @@ const express = require('express');
 const cors = require('cors');
 const MyMongo = require('./myMongo').MyMongo;
 
+function tryDo(lambda) {
+    try {
+        const result = lambda();
+        return result;
+    } catch(error) {
+        return error;
+    }
+}
 
 const url = 'mongodb://database:27017';
-function createApp(portNumber, dbName) {
-    const myMongo = new MyMongo(dbName);
+function createApp(portNumber, useSampleData = false) {
+    const myMongo = new MyMongo(useSampleData);
     const app = express();
     app.use(cors());
     app.use(function(req, res, next) {
+        console.log(`Incoming request at ${req.url}`);
         res.header("Access-Control-Allow-Origin", "*");
         res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -33,24 +42,26 @@ function createApp(portNumber, dbName) {
     });
 
     app.get('/getPostsChinese', (req, res) => {
-        myMongo.getPosts('chinese', (err, items) => {
-            if (err) {
-                res.send(JSON.stringify(err));
-            }
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(items));
-        });
+        const result = tryDo(() => myMongo.getPosts("chinese"));
+        res.setHeader('Content-Type', 'application/json');
+        res.send(result);
     });
 
     app.get('/getPostsEnglish', (req, res) => {
-        myMongo.getPosts('english', (err, items) => {
-            if (err) {
-                res.send(JSON.stringify(err));
-            }
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(items));
-        });
+        const result = tryDo(() => myMongo.getPosts("english"));
+        res.setHeader('Content-Type', 'application/json');
+        res.send(result);
     });
+
+    app.get('/resetUpdates', (req, res) => {
+        try {
+            myMongo.resetUpdates("chinese");
+            myMongo.resetUpdates("english");
+            res.send("OK");
+        } catch (error) {
+            res.status(999).send("ERROR");
+        }
+    })
 
     app.get('/someObjectIds', (req, res) => { // This is for unit testing purpose only
         myMongo.getSomeObjectIds((err, items) => {
@@ -117,7 +128,7 @@ function createApp(portNumber, dbName) {
         }));
     });
 
-    app.listen(portNumber, () => console.log(`Example app listening on port ${portNumber}!`));
+    app.listen(portNumber, () => console.log(`The server is listening on port ${portNumber}!`));
     return app;
 }
 
