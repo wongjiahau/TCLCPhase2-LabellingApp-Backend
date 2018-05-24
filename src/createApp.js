@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
-const MyMongo = require('./myMongo').MyMongo;
+const Database = require('./database').Database;
 
 function tryDo(lambda) {
     try {
@@ -18,7 +18,7 @@ function tryDo(lambda) {
 
 const url = 'mongodb://database:27017';
 function createApp(portNumber, useSampleData = false) {
-    const myMongo = new MyMongo(useSampleData);
+    const database = new Database(useSampleData);
     const app = express();
     app.use(cors());
     app.use(function(req, res, next) {
@@ -43,21 +43,21 @@ function createApp(portNumber, useSampleData = false) {
     });
 
     app.get('/getPostsChinese', (req, res) => {
-        const result = tryDo(() => myMongo.getPosts("chinese"));
+        const result = tryDo(() => database.getPosts("chinese"));
         res.setHeader('Content-Type', 'application/json');
         res.send({posts: result});
     });
 
     app.get('/getPostsEnglish', (req, res) => {
-        const result = tryDo(() => myMongo.getPosts("english"));
+        const result = tryDo(() => database.getPosts("english"));
         res.setHeader('Content-Type', 'application/json');
         res.send({posts: result});
     });
 
     app.get('/resetUpdates', (req, res) => {
         try {
-            myMongo.resetUpdates("chinese");
-            myMongo.resetUpdates("english");
+            database.resetUpdates("chinese");
+            database.resetUpdates("english");
             res.send("OK");
         } catch (error) {
             res.status(999).send("ERROR");
@@ -65,19 +65,19 @@ function createApp(portNumber, useSampleData = false) {
     })
 
     app.get('/someUids', (req, res) => { // This is for unit testing purpose only
-        const result = tryDo(() => myMongo.getSomeUids());
+        const result = tryDo(() => database.getSomeUids());
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(result));
     });
 
     app.get('/getPostObjectBasedOnUid', (req, res) => { // This is for unit testing purpose only
-        const result = tryDo(() => myMongo.getPostObjectBasedOnUid(req.body.id));
+        const result = tryDo(() => database.getPostObjectBasedOnUid(req.body.id));
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(result));
     });
 
     app.post('/submitEnglish', (req, res) => {
-        const result = tryDo(() => myMongo.submitUpdates("english", req.body));
+        const result = tryDo(() => database.submitUpdates("english", req.body));
         if(result.error) {
             res.send("Failed due to: " + result.error)
             return;
@@ -86,7 +86,7 @@ function createApp(portNumber, useSampleData = false) {
     });
 
     app.post('/submitChinese', (req, res) => {
-        const result = tryDo(() => myMongo.submitUpdates("chinese", req.body));
+        const result = tryDo(() => database.submitUpdates("chinese", req.body));
         if(result.error) {
             res.send("Failed due to: " + result.error)
             return;

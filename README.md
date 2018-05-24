@@ -1,4 +1,9 @@
 # TCLCPhase2-LabellingApp-Backend
+## Where does the initial data comes from?
+They came from the following link:
+-  https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/chinese.json 
+- https://raw.githubusercontent.com/fesvictor/TCLCPhase2/master/analysis/transform_format_for_mongodb/english.json 
+
 ## How it works?
 First, the data is stored as JSON with name of `chinese.json` and `english.json`.  
 These files contain the post data.

@@ -1,4 +1,3 @@
-
 // Import modules
 const fs = require("fs");
 const hash = require("object-hash");
@@ -57,7 +56,7 @@ function applyUpdate(data, update) {
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const URL = 'mongodb://database:27017';
-function MyMongo(usingSampleData = false) {
+function Database(usingSampleData = false) {
   this.DATA = {};
   this.usingSampleData = usingSampleData;
   
@@ -110,80 +109,31 @@ function MyMongo(usingSampleData = false) {
   }
 
   this.submitUpdates = (language, submitData) => {
-      const incomingUpdates = submitData.updates;
-      const updates = [];
-      for (var uid in incomingUpdates) {
-        if (incomingUpdates.hasOwnProperty(uid)) {
-          var newSemanticValue = incomingUpdates[uid];
-          updates.push(createUpdates(uid, "semantic_value", newSemanticValue));
-          updates.push(createUpdates(uid, "labelled_on", (new Date()).getTime()));
-        }
+    const incomingUpdates = submitData.updates;
+    const updates = [];
+    for (var uid in incomingUpdates) {
+      if (incomingUpdates.hasOwnProperty(uid)) {
+        var newSemanticValue = incomingUpdates[uid];
+        updates.push(createUpdates(uid, "semantic_value", newSemanticValue));
+        updates.push(createUpdates(uid, "labelled_on", (new Date()).getTime()));
       }
-      submitData.merges.forEach(m => {
-        m.absorbees.forEach((uid) => {
-          updates.push(createUpdates(uid, "absorbedBy", m.absorber));
-        })
-      });
-      
-      submitData.malayPosts.forEach(uid => {
-        updates.push(createUpdates(uid, "isMalay", true));
-      });
-
-      this.writeUpdates(language, updates);
-      return "ok";
     }
-  }
-
-  this.fetchAdminData = (language, callback) => {
-    MongoClient.connect(URL, (err, client) => {
-      const collection = client
-        .db(dbName)
-        .collection(language);
-      collection.aggregate([
-        {
-          $group: {
-            _id: {
-              source: '$source',
-              semantic_value: '$semantic_value'
-            },
-            total: {
-              $sum: 1
-            }
-          }
-        }
-      ]).toArray((err1, items1) => {
-        callback(err1, items1);
-      });
+    submitData.merges.forEach(m => {
+      m.absorbees.forEach((uid) => {
+        updates.push(createUpdates(uid, "absorbedBy", m.absorber));
+      })
     });
-  }
-
-  this.fetchNumberOfPostLabelledToday = (language, callback) => {
-    MongoClient.connect(URL, (err, client) => {
-      const collection = client
-        .db(dbName)
-        .collection(language);
-      collection.find({
-        semantic_value: {
-          $nin: ['pending', 'unassigned']
-        },
-        labelled_on: {
-          $exists: true
-        }
-      }, {
-        labelled_on: 1,
-        _id: 0
-      }).toArray((err, items) => {
-        const dates = items.map((x) => x.labelled_on);
-        const epochOfTodayMidnight = new Date();
-        epochOfTodayMidnight.setHours(0, 0, 0, 0);
-        const numberOfPostLabelledToday = dates.filter((x) => x > epochOfTodayMidnight.getTime()).length;
-        callback(err, numberOfPostLabelledToday);
-      });
+    
+    submitData.malayPosts.forEach(uid => {
+      updates.push(createUpdates(uid, "isMalay", true));
     });
 
+    this.writeUpdates(language, updates);
+    return "ok";
   }
+}
 
 
 module.exports = {
-  MyMongo
+  Database
 };
