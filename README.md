@@ -100,7 +100,12 @@ The log file will be located at `server.log`.
 ## How to stop the server?
 ```
 cd src
-forever stop app.js
+sudo forever stop app.js
+```
+
+## How to list running forever process?
+```
+sudo forever list
 ```
 
 ## How to get the output file?
