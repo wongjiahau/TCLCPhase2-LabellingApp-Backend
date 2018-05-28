@@ -23,8 +23,10 @@ function Database(usingSampleData = false) {
     const updatePath = getDataPath(language, this.usingSampleData) + "/updates";
     const filenames = fs.readdirSync(updatePath);
     filenames.forEach(name => {
-      console.log(`Removing ${updatePath}/${name}`);
-      fs.unlinkSync(`${updatePath}/${name}`);
+      if(name.includes(".json")) {
+        console.log(`Removing ${updatePath}/${name}`);
+        fs.unlinkSync(`${updatePath}/${name}`);
+      }
     })
     this.loadData()
   }
