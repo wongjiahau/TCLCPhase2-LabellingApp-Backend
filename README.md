@@ -74,13 +74,21 @@ npm run test
 cd src
 node app.js
 ```
+## How to deploy to server?
+Firstly, install `Node.js` (search Google).
+Then:
+```
+git clone https://github.com/wongjiahau/TCLCPhase2-LabellingApp-Backend.git
+cd TCLCPhase2-LabellingApp-Backend/src
+npm install
+```
 
 ## How to run the server (for deployment)?
 First, install `forever`. (Read more [at here](https://github.com/foreverjs/forever))
 
 This program (`forever`) is to make sure the server is restarted whenever it crashes.
 ```
-npm i -g forever
+sudo npm i -g forever
 ```
 Then, 
 ```

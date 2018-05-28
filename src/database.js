@@ -136,8 +136,10 @@ function loadData(language /* "english" or "chinese" */, usingSampleData = false
   const updatePath = `${path}/updates`;
   const filenames = fs.readdirSync(updatePath);
   filenames.forEach(name => {
-    const updates = JSON.parse(fs.readFileSync(`${updatePath}/${name}`).toString());
-    updates.forEach(u => applyUpdate(result, u));
+    if(name.includes(".json")) {
+      const updates = JSON.parse(fs.readFileSync(`${updatePath}/${name}`).toString());
+      updates.forEach(u => applyUpdate(result, u));
+    }
   });
 
   console.log(`Total number of records for ${language} = ${values(result).length}`);

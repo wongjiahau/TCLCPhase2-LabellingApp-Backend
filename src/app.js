@@ -1,5 +1,5 @@
 const createApp = require("./createApp");
 
-const useSampleData = false; // Remember to change this to false during deployment!
-const port = 3000;
+const useSampleData = false; // Remember to change this to false during deployment
+const port = 80; // Remember to change this to port 80 during deployment
 createApp(port, useSampleData);
