@@ -1,4 +1,5 @@
 // Import modules
+const log = require("./log");
 const fs = require("fs");
 const hash = require("object-hash");
 
@@ -19,12 +20,12 @@ function Database(usingSampleData = false) {
   
   
   this.resetUpdates = (language) => {
-    console.log("Resetting updates for " + language);
+    log("Resetting updates for " + language);
     const updatePath = getDataPath(language, this.usingSampleData) + "/updates";
     const filenames = fs.readdirSync(updatePath);
     filenames.forEach(name => {
       if(name.includes(".json")) {
-        console.log(`Removing ${updatePath}/${name}`);
+        log(`Removing ${updatePath}/${name}`);
         fs.unlinkSync(`${updatePath}/${name}`);
       }
     })
@@ -85,7 +86,7 @@ function Database(usingSampleData = false) {
   }
 
   this.generateOutput = (language) => {
-    console.log(`
+    log(`
       Generating output . . .
       Saving file as ./${language}_output.json
     `);
@@ -121,7 +122,7 @@ function getDataPath(language, usingSampleData = false) {
 }
 
 function loadData(language /* "english" or "chinese" */, usingSampleData = false) {
-  console.log("Loading data for " + language);
+  log("Loading data for " + language);
   const path = getDataPath(language, usingSampleData);
   const file = fs.readFileSync(`${path}/data.json`).toString();
   const json = JSON.parse(file);
@@ -144,7 +145,7 @@ function loadData(language /* "english" or "chinese" */, usingSampleData = false
     }
   });
 
-  console.log(`Total number of records for ${language} = ${values(result).length}`);
+  log(`Total number of records for ${language} = ${values(result).length}`);
   return result;
 }
 

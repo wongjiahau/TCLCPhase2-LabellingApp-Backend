@@ -3,13 +3,14 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const Database = require('./database').Database;
+const log = require("./log");
 
 function tryDo(lambda) {
     try {
         const result = lambda();
         return result;
     } catch(error) {
-        console.log(`Error caught at tryDo : ${error}`);
+        log(`Error caught at tryDo : ${error}`);
         return {error: error};
     }
 }
@@ -19,7 +20,7 @@ function createApp(portNumber, useSampleData = false) {
     const app = express();
     app.use(cors());
     app.use(function(req, res, next) {
-        console.log(`Incoming request at ${req.url}`);
+        log(`Incoming request at ${req.url}`);
         res.header("Access-Control-Allow-Origin", "*");
         res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -130,7 +131,7 @@ function createApp(portNumber, useSampleData = false) {
         // });
     });
 
-    app.listen(portNumber, () => console.log(`The server is listening on port ${portNumber}!`));
+    app.listen(portNumber, () => log(`The server is listening on port ${portNumber}!`));
     return app;
 }
 
