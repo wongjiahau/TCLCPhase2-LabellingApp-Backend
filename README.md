@@ -93,7 +93,7 @@ sudo npm i -g forever
 Then, 
 ```
 cd src
-forever -o server.log start app.js
+sudo forever -o server.log start app.js
 ```
 The log file will be located at `server.log`.
 
