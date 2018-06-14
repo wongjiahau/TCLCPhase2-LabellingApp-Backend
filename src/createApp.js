@@ -40,6 +40,18 @@ function createApp(portNumber, useSampleData = false) {
         res.send(JSON.stringify({message: 'Hello World!'}));
     });
 
+    app.get('/getRawDataEnglish', (req, res) => {
+        const result = tryDo(() => database.getRawData("english"));
+        res.setHeader('Content-Type', 'file/json');
+        res.send(result);
+    });
+
+    app.get('/getRawDataChinese', (req, res) => {
+        const result = tryDo(() => database.getRawData("chinese"));
+        res.setHeader('Content-Type', 'file/json');
+        res.send(result);
+    });
+
     app.get('/getPostsChinese', (req, res) => {
         const result = tryDo(() => database.getPosts("chinese"));
         res.setHeader('Content-Type', 'application/json');

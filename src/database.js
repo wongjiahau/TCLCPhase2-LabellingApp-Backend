@@ -85,6 +85,10 @@ function Database(usingSampleData = false) {
     return "ok";
   }
 
+  this.getRawData = (language) => {
+    return this.DATA[language];
+  }
+
   this.generateOutput = (language) => {
     log(`
       Generating output . . .
@@ -105,6 +109,10 @@ function Database(usingSampleData = false) {
       merged:     data.filter(x => x.hasOwnProperty("absorbedBy")).length
     };
   }
+
+  // Log the current status of data
+  log("Status of english posts" + JSON.stringify(this.generateAnalysisReport("english"), null ,2))
+  log("Status of chinese posts" + JSON.stringify(this.generateAnalysisReport("chinese"), null ,2))
 }
 
 
